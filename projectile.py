@@ -27,4 +27,4 @@ class projectile:
         self.pos_x += time*self.vel_x*orientation
         self.vel_y += g*time*self.dir_y
         self.pos_y += time*self.vel_y*self.dir_y
-        pygame.draw.circle(surface,self.color,(int(self.pos_x), int(self.pos_y)),6,2)
+        pygame.draw.circle(surface,self.color,(int(self.pos_x), int(self.pos_y)),6,0)
