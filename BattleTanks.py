@@ -20,7 +20,7 @@ class tank:
     tank_pos_x = 0
     tank_pos_y = 0
     angle = 0
-    tank_color = (0,0,0)
+    tank_color = (01,0,0)
     gun_velocity = 0.0001
     # Constructor
     def __init__(self,(posx,posy),color,orientation):
