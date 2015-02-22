@@ -31,3 +31,5 @@ class projectile:
         if(self.pos_y > scr_height):
             active_projectiles.remove(self)
         pygame.draw.circle(surface,self.color,(int(self.pos_x), int(self.pos_y)),6,0)
+
+

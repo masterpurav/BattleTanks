@@ -20,26 +20,27 @@ while True:
             exit()
         if event.type == KEYDOWN:
             if event.key == K_LEFT:
-                B.moveLeft()
+                A.moveLeft()
             if event.key == K_RIGHT:
-                B.moveRight()
+                A.moveRight()
             if event.key == K_UP:
-                B.gunUp()
+                A.gunUp()
             if event.key == K_DOWN:
-                B.gunDown()
+                A.gunDown()
             if event.key == K_SPACE:
-                B.fire()
+                A.fire()
             if event.key == K_ESCAPE:
                 exit()
         if event.type == KEYUP:
             if event.key == K_LEFT or event.key == K_RIGHT:
-                B.dir = 0
+                A.dir = 0
             if event.key == K_UP or event.key == K_DOWN:
-                B.gun_dir = 0
+                A.gun_dir = 0
     screen.blit(background,(0,0))
     time = clock.tick()/1000.
     A.drawTank(screen,time)
     B.drawTank(screen,time)
+    B.gotHit()
     for x in active_projectiles:
         x.drawProjectile(screen,time)
     pygame.display.update()

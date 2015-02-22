@@ -2,7 +2,7 @@ __author__ = 'Purav'
 
 import pygame
 import math
-from pygame.locals import *
+from game_constants import *
 from projectile import projectile, active_projectiles
 
 class tank:
@@ -62,3 +62,8 @@ class tank:
     def fire(self):
         p = projectile((self.gun_x,self.gun_y),self.angle,self.orientation)
         active_projectiles.append(p)
+
+    def gotHit(self):
+        for x in active_projectiles:
+            if(x.pos_y < scr_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
+                active_projectiles.remove(x)
