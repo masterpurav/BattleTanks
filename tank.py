@@ -58,9 +58,7 @@ class tank:
         surface.blit(self.image,(self.tank_pos_x-self.tank_width/2,self.tank_pos_y-self.tank_height))
         self.tank_pos_x += time*self.speed*self.dir
         self.angle += self.gun_dir * self.gun_velocity
-        for x in active_projectiles:
-            x.drawProjectile(surface,time,self.orientation)
 
     def fire(self):
-        p = projectile((self.gun_x,self.gun_y),self.angle)
+        p = projectile((self.gun_x,self.gun_y),self.angle,self.orientation)
         active_projectiles.append(p)

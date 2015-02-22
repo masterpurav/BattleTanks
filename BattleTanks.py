@@ -5,16 +5,12 @@ import pygame
 from pygame.locals import *
 from sys import exit
 from tank import tank
-
-
-scr_height = 600
-scr_width = 1300
-
-
+from game_constants import *
+from projectile import active_projectiles, projectile
 
 pygame.init()
 background = pygame.image.load("images/background.jpg")
-screen = pygame.display.set_mode((scr_width,scr_height),0,32)
+screen = pygame.display.set_mode((scr_width,scr_height),pygame.FULLSCREEN,32)
 clock = pygame.time.Clock()
 A = tank((100,scr_height),(211,0,0),1)
 B = tank((scr_width - 100,scr_height),(0,100,0),-1)
@@ -24,21 +20,26 @@ while True:
             exit()
         if event.type == KEYDOWN:
             if event.key == K_LEFT:
-                A.moveLeft()
+                B.moveLeft()
             if event.key == K_RIGHT:
-                A.moveRight()
+                B.moveRight()
             if event.key == K_UP:
-                A.gunUp()
+                B.gunUp()
             if event.key == K_DOWN:
-                A.gunDown()
+                B.gunDown()
             if event.key == K_SPACE:
-                A.fire()
+                B.fire()
+            if event.key == K_ESCAPE:
+                exit()
         if event.type == KEYUP:
-            A.dir = 0
-            A.gun_dir = 0
+            if event.key == K_LEFT or event.key == K_RIGHT:
+                B.dir = 0
+            if event.key == K_UP or event.key == K_DOWN:
+                B.gun_dir = 0
     screen.blit(background,(0,0))
-
     time = clock.tick()/1000.
     A.drawTank(screen,time)
     B.drawTank(screen,time)
+    for x in active_projectiles:
+        x.drawProjectile(screen,time)
     pygame.display.update()
