@@ -10,7 +10,7 @@ from projectile import active_projectiles, projectile
 
 pygame.init()
 background = pygame.image.load("images/background.jpg")
-screen = pygame.display.set_mode((scr_width,scr_height),pygame.FULLSCREEN,16)
+screen = pygame.display.set_mode((scr_width,scr_height),pygame.FULLSCREEN,32)
 clock = pygame.time.Clock()
 A = tank((100,scr_height),(211,0,0),1)
 B = tank((scr_width - 100,scr_height),(0,100,0),-1)
