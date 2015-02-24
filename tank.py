@@ -47,7 +47,7 @@ class tank:
         self.gun_dir = -1
 
     # Draws the tank on the specified surface with its state at specified time
-    def drawTank(self,surface, time):
+    def drawTank(self,surface,time):
         if self.orientation == 1:
             self.image = pygame.image.load("images/tank_left.png")
         else:
