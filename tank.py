@@ -21,6 +21,7 @@ class tank:
     gun_velocity = 0.001   # Angular velocity of gun rotation
     gun_x = 0
     gun_y = 0
+    health = 100
 
     # Constructor
     def __init__(self,(posx,posy),color,orientation):
@@ -65,5 +66,24 @@ class tank:
 
     def gotHit(self):
         for x in active_projectiles:
-            if(x.pos_y < scr_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
+            if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
                 active_projectiles.remove(x)
+                self.health -= 10
+
+    def drawHealthBar(self, surface):
+        if self.health > 25:
+            color_health_remaining = (53,155,41)
+        else:
+            color_health_remaining = (233,25,18)
+        color_health_lost = (26,152,225)
+        if self.orientation == 1:
+            healthRemaining = ((50,50),(0.4*scr_width*self.health/100,30))
+            healthLost = ((50+0.4*scr_width*self.health/100,50),(0.4*scr_width-0.4*scr_width*self.health/100,30))
+        else:
+            healthLost = ((scr_width/2+80,50),(0.4*scr_width-0.4*scr_width*self.health/100,30))
+            healthRemaining = ((scr_width/2+80+0.4*scr_width-0.4*scr_width*self.health/100,50),(0.4*scr_width*self.health/100,30))
+        pygame.draw.rect(surface,color_health_remaining,healthRemaining)
+        pygame.draw.rect(surface,color_health_lost,healthLost)
+
+
+

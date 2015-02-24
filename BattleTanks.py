@@ -41,6 +41,9 @@ while True:
     A.drawTank(screen,time)
     B.drawTank(screen,time)
     B.gotHit()
+    A.gotHit()
+    A.drawHealthBar(screen)
+    B.drawHealthBar(screen)
     for x in active_projectiles:
         x.drawProjectile(screen,time)
     pygame.display.update()
