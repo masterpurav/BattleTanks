@@ -48,12 +48,12 @@ class tank:
     # Draws the tank on the specified surface with its state at specified time
     def drawTank(self,surface, time):
         if self.orientation == 1:
-            self.image = pygame.image.load("images/tank_left.gif")
+            self.image = pygame.image.load("images/tank_left.png")
         else:
             self.image = pygame.image.load("images/tank_right.gif")
         self.gun_x = self.tank_pos_x+self.orientation*self.gun_length*math.cos(self.angle*57.3)
         self.gun_y = self.tank_pos_y-self.tank_height/2-self.gun_length*math.sin(self.angle*57.3)
-        pygame.draw.line(surface,(211,54,0),(self.tank_pos_x,self.tank_pos_y-self.tank_height/2),(self.gun_x,self.gun_y),5)
+        pygame.draw.line(surface,(97,124,50),(self.tank_pos_x,self.tank_pos_y-self.tank_height/2),(self.gun_x,self.gun_y),5)
         #pygame.draw.rect(surface,self.tank_color,Rect((self.tank_pos_x-self.tank_width/2,self.tank_pos_y-self.tank_height),(self.tank_width,self.tank_height)))
         surface.blit(self.image,(self.tank_pos_x-self.tank_width/2,self.tank_pos_y-self.tank_height))
         self.tank_pos_x += time*self.speed*self.dir
