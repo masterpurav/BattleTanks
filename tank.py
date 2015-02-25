@@ -69,10 +69,11 @@ class tank:
             active_projectiles.append(p)
 
     def gotHit(self):
-        for x in active_projectiles:
-            if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
-                active_projectiles.remove(x)
-                self.health -= 10
+        if(time.time() - self.lastCast > 0.5):
+            for x in active_projectiles:
+                if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
+                    active_projectiles.remove(x)
+                    self.health -= 10
 
     def drawHealthBar(self, surface):
         if self.health > 25:
