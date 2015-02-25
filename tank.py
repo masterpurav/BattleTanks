@@ -56,8 +56,8 @@ class tank:
         else:
             self.image = pygame.image.load("images/tank_right.gif")
         self.gun_x = self.tank_pos_x+self.orientation*self.gun_length*math.cos(self.angle*57.3)
-        self.gun_y = self.tank_pos_y-self.tank_height/2-self.gun_length*math.sin(self.angle*57.3)
-        pygame.draw.line(surface,(97,124,50),(self.tank_pos_x,self.tank_pos_y-self.tank_height/2),(self.gun_x,self.gun_y),5)
+        self.gun_y = self.tank_pos_y-self.tank_height/2-15-self.gun_length*math.sin(self.angle*57.3)
+        pygame.draw.line(surface,(97,124,50),(self.tank_pos_x,self.tank_pos_y-self.tank_height/2-15),(self.gun_x,self.gun_y),5)
         surface.blit(self.image,(self.tank_pos_x-self.tank_width/2,self.tank_pos_y-self.tank_height))
         self.tank_pos_x += time*self.speed*self.dir
         self.angle += self.gun_dir * self.gun_velocity
