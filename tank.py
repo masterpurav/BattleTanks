@@ -61,6 +61,8 @@ class tank:
         surface.blit(self.image,(self.tank_pos_x-self.tank_width/2,self.tank_pos_y-self.tank_height))
         self.tank_pos_x += time*self.speed*self.dir
         self.angle += self.gun_dir * self.gun_velocity
+        self.drawHealthBar(surface)
+        self.gotHit()
 
     def fire(self):
         if time.time() - self.lastCast > 1.5:
