@@ -4,6 +4,7 @@ import pygame
 import math
 from game_constants import *
 from projectile import projectile, active_projectiles
+import time
 
 class tank:
     # Tank attributes initialization
@@ -21,6 +22,7 @@ class tank:
     gun_velocity = 0.001   # Angular velocity of gun rotation
     gun_x = 0
     gun_y = 0
+    lastCast = time.time()
     health = 100
 
     # Constructor
@@ -29,6 +31,7 @@ class tank:
         self.tank_pos_y = posy
         self.tank_color = color
         self.orientation = orientation
+
 
     # Move left
     def moveLeft(self):
@@ -55,14 +58,15 @@ class tank:
         self.gun_x = self.tank_pos_x+self.orientation*self.gun_length*math.cos(self.angle*57.3)
         self.gun_y = self.tank_pos_y-self.tank_height/2-self.gun_length*math.sin(self.angle*57.3)
         pygame.draw.line(surface,(97,124,50),(self.tank_pos_x,self.tank_pos_y-self.tank_height/2),(self.gun_x,self.gun_y),5)
-        #pygame.draw.rect(surface,self.tank_color,Rect((self.tank_pos_x-self.tank_width/2,self.tank_pos_y-self.tank_height),(self.tank_width,self.tank_height)))
         surface.blit(self.image,(self.tank_pos_x-self.tank_width/2,self.tank_pos_y-self.tank_height))
         self.tank_pos_x += time*self.speed*self.dir
         self.angle += self.gun_dir * self.gun_velocity
 
     def fire(self):
-        p = projectile((self.gun_x,self.gun_y),self.angle,self.orientation)
-        active_projectiles.append(p)
+        if time.time() - self.lastCast > 1.5:
+            self.lastCast = time.time()
+            p = projectile((self.gun_x,self.gun_y),self.angle,self.orientation)
+            active_projectiles.append(p)
 
     def gotHit(self):
         for x in active_projectiles:
@@ -77,8 +81,8 @@ class tank:
             color_health_remaining = (233,25,18)
         color_health_lost = (255,255,225)
         if self.orientation == 1:
-            healthRemaining = ((50,50),(0.4*scr_width*self.health/100,30))
-            healthLost = ((50+0.4*scr_width*self.health/100,50),(0.4*scr_width-0.4*scr_width*self.health/100,30))
+            healthRemaining = ((50,50),(0.4*scr_width*self.health/100.,30))
+            healthLost = ((50+0.4*scr_width*self.health/100.,50),(0.4*scr_width-0.4*scr_width*self.health/100.,30))
         else:
             healthLost = ((scr_width/2+80,50),(0.4*scr_width-0.4*scr_width*self.health/100,30))
             healthRemaining = ((scr_width/2+80+0.4*scr_width-0.4*scr_width*self.health/100,50),(0.4*scr_width*self.health/100,30))
