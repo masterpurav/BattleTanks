@@ -75,7 +75,7 @@ class tank:
             color_health_remaining = (53,155,41)
         else:
             color_health_remaining = (233,25,18)
-        color_health_lost = (26,152,225)
+        color_health_lost = (255,255,225)
         if self.orientation == 1:
             healthRemaining = ((50,50),(0.4*scr_width*self.health/100,30))
             healthLost = ((50+0.4*scr_width*self.health/100,50),(0.4*scr_width-0.4*scr_width*self.health/100,30))
