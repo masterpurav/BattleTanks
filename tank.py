@@ -71,15 +71,19 @@ class tank:
         self.gotHit()
 
     def fire(self):
+        gunshot = pygame.mixer.Sound("sounds/gunshot.wav")
         if time.time() - self.lastCast > 1.5:
             self.lastCast = time.time()
             p = projectile((self.gun_x,self.gun_y),self.angle,self.orientation)
+            channel = gunshot.play()
+            if channel is not None:
+                left,right = self.stereopan(self.tank_pos_x,scr_width)
+                channel.set_volume(left,right)
 
     def gotHit(self):
         if(time.time() - self.lastCast > 0.5):
             for x in active_projectiles:
                 if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
-                 #if(x.pos_y <scr_height-self.wall_height and x.pos_x > scr_width/2-self.wall_width/2 and x.pos_x < scr_width/2+self.wall_width/2):
                     active_projectiles.remove(x)
                     self.health -= 10
 
@@ -98,5 +102,9 @@ class tank:
         pygame.draw.rect(surface,color_health_remaining,healthRemaining)
         pygame.draw.rect(surface,color_health_lost,healthLost)
 
+    def stereopan(self,position, width):
+        rightVol = float(position)/width
+        leftVol = 1.0 - rightVol
+        return (leftVol,rightVol)
 
 

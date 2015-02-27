@@ -8,7 +8,7 @@ from tank import tank
 from game_constants import *
 from projectile import active_projectiles, projectile
 from wall import wall
-
+pygame.mixer.pre_init(44100,16,2,4096)
 pygame.init()
 background = pygame.image.load("images/background.jpg")
 screen = pygame.display.set_mode((scr_width,scr_height),pygame.FULLSCREEN,32)
