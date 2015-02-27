@@ -23,6 +23,7 @@ class projectile:
         self.vel_x = self.launch_velocity*math.cos(angle*57.3)
         self.vel_y = self.launch_velocity*math.sin(angle*57.3)
         self.orientation = orientation
+        active_projectiles.append(self)
 
     def drawProjectile(self,surface,time):
         self.pos_x += time*self.vel_x*self.orientation

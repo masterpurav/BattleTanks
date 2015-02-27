@@ -4,6 +4,7 @@ import pygame
 import math
 from game_constants import *
 from projectile import projectile, active_projectiles
+from wall import wall
 import time
 
 class tank:
@@ -60,9 +61,11 @@ class tank:
         pygame.draw.line(surface,(97,124,50),(self.tank_pos_x,self.tank_pos_y-self.tank_height/2-15),(self.gun_x,self.gun_y),5)
         surface.blit(self.image,(self.tank_pos_x-self.tank_width/2,self.tank_pos_y-self.tank_height))
         if self.orientation == 1:
+            self.tank_pos_x = min(self.tank_pos_x+time*self.speed*self.dir,scr_width/2-wall.wall_width/2-self.tank_width/2)
             self.tank_pos_x = max(self.tank_pos_x+time*self.speed*self.dir,self.tank_width/2)
         else:
             self.tank_pos_x = min(self.tank_pos_x+time*self.speed*self.dir,scr_width-self.tank_width/2)
+            self.tank_pos_x = max(self.tank_pos_x+time*self.speed*self.dir,scr_width/2+wall.wall_width/2+self.tank_width/2)
         self.angle += self.gun_dir * self.gun_velocity
         self.drawHealthBar(surface)
         self.gotHit()
@@ -71,12 +74,12 @@ class tank:
         if time.time() - self.lastCast > 1.5:
             self.lastCast = time.time()
             p = projectile((self.gun_x,self.gun_y),self.angle,self.orientation)
-            active_projectiles.append(p)
 
     def gotHit(self):
         if(time.time() - self.lastCast > 0.5):
             for x in active_projectiles:
                 if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
+                 #if(x.pos_y <scr_height-self.wall_height and x.pos_x > scr_width/2-self.wall_width/2 and x.pos_x < scr_width/2+self.wall_width/2):
                     active_projectiles.remove(x)
                     self.health -= 10
 
