@@ -59,7 +59,10 @@ class tank:
         self.gun_y = self.tank_pos_y-self.tank_height/2-15-self.gun_length*math.sin(self.angle*57.3)
         pygame.draw.line(surface,(97,124,50),(self.tank_pos_x,self.tank_pos_y-self.tank_height/2-15),(self.gun_x,self.gun_y),5)
         surface.blit(self.image,(self.tank_pos_x-self.tank_width/2,self.tank_pos_y-self.tank_height))
-        self.tank_pos_x += time*self.speed*self.dir
+        if self.orientation == 1:
+            self.tank_pos_x = max(self.tank_pos_x+time*self.speed*self.dir,self.tank_width/2)
+        else:
+            self.tank_pos_x = min(self.tank_pos_x+time*self.speed*self.dir,scr_width-self.tank_width/2)
         self.angle += self.gun_dir * self.gun_velocity
         self.drawHealthBar(surface)
         self.gotHit()

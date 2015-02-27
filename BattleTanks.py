@@ -7,11 +7,13 @@ from sys import exit
 from tank import tank
 from game_constants import *
 from projectile import active_projectiles, projectile
+from wall import wall
 
 pygame.init()
 background = pygame.image.load("images/background.jpg")
 screen = pygame.display.set_mode((scr_width,scr_height),pygame.FULLSCREEN,32)
 gameClock = pygame.time.Clock()
+separatorWall = wall()
 A = tank((100,scr_height),(211,0,0),1)
 B = tank((scr_width - 100,scr_height),(0,100,0),-1)
 while True:
@@ -40,6 +42,7 @@ while True:
     time = gameClock.tick()/1000.
     A.drawTank(screen,time)
     B.drawTank(screen,time)
+    separatorWall.draw(screen)
     for x in active_projectiles:
         x.drawProjectile(screen,time)
     pygame.display.update()
