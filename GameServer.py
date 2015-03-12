@@ -3,8 +3,6 @@ __author__ = 'Purav'
 import socket
 import select
 
-
-
 def handleClientData(sock,data):
     player = -1
     if str(sock) == player1:
@@ -15,28 +13,22 @@ def handleClientData(sock,data):
         print "Player2 played"
     print data, " Data"
     for i in range(0,len(data)):
-        print i
         if data[i] == "l":
-            print "left"
             gameData[player]['tankDir'] = -1
-            gameData[player]['fire'] = 0
         elif data[i] == "r":
-            gameData[player]['fire'] = 0
             gameData[player]['tankDir'] = 1
         elif data[i] == "t":
-            gameData[player]['fire'] = 0
             gameData[player]['tankDir'] = 0
         elif data[i] == "u":
-            gameData[player]['fire'] = 0
             gameData[player]['gunDir'] = 1
         elif data[i] == "d":
-            gameData[player]['fire'] = 0
             gameData[player]['gunDir'] = -1
         elif data[i] == "g":
-            gameData[player]['fire'] = 0
             gameData[player]['gunDir'] = 0
         elif data[i] == "f":
             gameData[player]['fire'] = 1
+        elif data[i] == "z":
+            gameData[player]['fire'] = 0
         elif data[i] == "q":
             print "Client disconnected"
             connections.remove(sock)

@@ -50,6 +50,8 @@ class Client():
             self.client.sendto("t",(self.server,self.serverPort))
         elif action == "gunZero":
             self.client.sendto("g",(self.server,self.serverPort))
+        elif action == "fireZero":
+            self.client.sendto("z",(self.server,self.serverPort))
         elif action == "quit":
             self.client.sendto("q",(self.server,self.serverPort))
             self.client.close()
@@ -57,19 +59,28 @@ class Client():
 
     def handleData(self,data):
         print data
-        data = ast.literal_eval(data)
+        try:
+            data = ast.literal_eval(data)
+        except:
+            print "Malformed string"
+            return
         self.A.dir = data[0]['tankDir']
+        self.B.dir = data[1]['tankDir']
         self.A.gun_dir = data[0]['gunDir']
+        self.B.gun_dir = data[1]['gunDir']
         self.A.health = data[0]['health']
+        self.health = data[1]['health']
         if data[0]['fire'] == 1:
             self.A.fire()
+        if data[1]['fire'] == 1:
+            self.B.fire()
 
     def run(self):
         running = True
         while running:
             readable, writable, exceptional = select.select(self.readList,[],[],0)
             for r in readable:
-                data = r.recv(256)
+                data = r.recv(111)
                 if not data:
                     print 'Server disconnected'
                     exit()
@@ -96,6 +107,8 @@ class Client():
                         self.handleKey("tankZero")
                     if event.key == K_UP or event.key == K_DOWN:
                         self.handleKey("gunZero")
+                    if event.key == K_SPACE:
+                        self.handleKey("fireZero")
             self.screen.blit(self.background,(0,0))
             time = self.gameClock.tick()/1000.
             self.A.drawTank(self.screen,time)
