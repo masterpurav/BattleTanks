@@ -3,6 +3,7 @@ __author__ = 'Purav'
 import socket
 import select
 import pygame
+import ast
 from pygame.locals import *
 from sys import exit
 from tank import tank
@@ -56,6 +57,12 @@ class Client():
 
     def handleData(self,data):
         print data
+        data = ast.literal_eval(data)
+        self.A.dir = data[0]['tankDir']
+        self.A.gun_dir = data[0]['gunDir']
+        self.A.health = data[0]['health']
+        if data[0]['fire'] == 1:
+            self.A.fire()
 
     def run(self):
         running = True
