@@ -20,6 +20,7 @@ class Client():
             self.client.connect((self.server,self.serverPort))
         except:
             print 'Unable to connect to server'
+            exit()
         print 'Successfully connnected to server'
         self.initializeGame()
 
@@ -35,19 +36,23 @@ class Client():
 
     def handleKey(self,action):
         if action == "left":
-            self.client.send("l")
+            self.client.sendto("l",(self.server,self.serverPort))
         elif action == "right":
-            self.client.send("r")
+            self.client.sendto("r",(self.server,self.serverPort))
         elif action == "up":
-            self.client.send("u")
+            self.client.sendto("u",(self.server,self.serverPort))
         elif action == "down":
-            self.client.send("d")
+            self.client.sendto("d",(self.server,self.serverPort))
         elif action == "space":
-            self.client.send("f")
+            self.client.sendto("f",(self.server,self.serverPort))
         elif action == "tankZero":
-            self.client.send("t")
+            self.client.sendto("t",(self.server,self.serverPort))
         elif action == "gunZero":
-            self.client.send("g")
+            self.client.sendto("g",(self.server,self.serverPort))
+        elif action == "quit":
+            self.client.sendto("q",(self.server,self.serverPort))
+            self.client.close()
+            exit()
 
     def handleData(self,data):
         print data
@@ -65,7 +70,7 @@ class Client():
                     self.handleData(data)
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    exit()
+                    self.handleKey("quit")
                 if event.type == KEYDOWN:
                     if event.key == K_LEFT:
                         self.handleKey("left")
@@ -78,7 +83,7 @@ class Client():
                     if event.key == K_SPACE:
                         self.handleKey("space")
                     if event.key == K_ESCAPE:
-                        exit()
+                        self.handleKey("quit")
                 if event.type == KEYUP:
                     if event.key == K_LEFT or event.key == K_RIGHT:
                         self.handleKey("tankZero")
