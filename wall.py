@@ -19,7 +19,6 @@ class wall:
 
     def hit_wall(self):
         for x in active_projectiles:
-            print (x.pos_x,x.pos_y)
-            print (game_constants.scr_width/2+self.wall_width/2,game_constants.scr_height-self.wall_height)
             if(x.pos_y > game_constants.scr_height-self.wall_height and x.pos_x < game_constants.scr_width/2+self.wall_width/2 and x.pos_x > game_constants.scr_width/2 - self.wall_width/2):
+                print "in hit wall"
                 active_projectiles.remove(x)
