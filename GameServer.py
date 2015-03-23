@@ -29,10 +29,10 @@ def handleClientData(sock,data):
             gameData[player]['tankDir'] = 0
         elif data[i] == "u":
             #gameData[player]['gunDir'] = -1
-            gameData[player]['gunAngle'] -= 0.001
+            gameData[player]['gunAngle'] += 0.001
             #gameData[player]['gunAngle'] = formatAngle(gameData[player]['gunAngle'])
         elif data[i] == "d":
-            gameData[player]['gunAngle'] += 0.001
+            gameData[player]['gunAngle'] -= 0.001
             #gameData[player]['gunAngle'] = formatAngle(gameData[player]['gunAngle'])
         #elif data[i] == "g":
             #gameData[player]['gunDir'] = 0
