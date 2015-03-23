@@ -2,6 +2,14 @@ __author__ = 'Purav'
 
 import socket
 import select
+import game_constants
+
+def formatAngle(number):
+    number = round(number,3)
+    x,sep,y = str(number).partition('.')
+    for x in range(len(y),4):
+        number+="0"
+    print number
 
 def handleClientData(sock,data):
     player = -1
@@ -20,15 +28,20 @@ def handleClientData(sock,data):
         elif data[i] == "t":
             gameData[player]['tankDir'] = 0
         elif data[i] == "u":
-            gameData[player]['gunDir'] = 1
+            #gameData[player]['gunDir'] = -1
+            gameData[player]['gunAngle'] -= 0.001
+            #gameData[player]['gunAngle'] = formatAngle(gameData[player]['gunAngle'])
         elif data[i] == "d":
-            gameData[player]['gunDir'] = -1
-        elif data[i] == "g":
-            gameData[player]['gunDir'] = 0
+            gameData[player]['gunAngle'] += 0.001
+            #gameData[player]['gunAngle'] = formatAngle(gameData[player]['gunAngle'])
+        #elif data[i] == "g":
+            #gameData[player]['gunDir'] = 0
         elif data[i] == "f":
             gameData[player]['fire'] = 1
         elif data[i] == "z":
             gameData[player]['fire'] = 0
+        elif data[i] == "h":
+            gameData[abs(1-i)]['health'] -= 10
         elif data[i] == "q":
             print "Client disconnected"
             connections.remove(sock)
@@ -45,35 +58,38 @@ if __name__ == '__main__':
     gameData = [{
     'health':100,
     'tankDir':0,
-    'gunDir':0,
+    'gunAngle':0,
     'fire':0
     },{
     'health':100,
     'tankDir':0,
-    'gunDir':0,
+    'gunAngle':0,
     'fire':0
     }]
     player1 = ""
     player2 = ""
     connections = []
+    readList = []
     port = 5555
     server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     print "server ",server
     server.bind((socket.gethostname(),port))
-    server.listen(3)
     connections.append(server)
+    server.listen(3)
     print 'Waiting for clients'
     while 1:
         readable,writable,exceptional = select.select(connections,[],[],0)
         for sock in readable:
-            if sock == server:
-                sockObj, addr = server.accept()
+            if sock is server:
+                sockObj, addr = sock.accept()
                 connections.append(sockObj)
                 if player1 == "":
                     player1 = str(sockObj)
                 else:
                     player2 = str(sockObj)
-                print 'Client (%s, %s) connected' % addr
+
+                #handleClientData(addr,data)
+
             else:
                 try:
                     data = sock.recv(1024)
