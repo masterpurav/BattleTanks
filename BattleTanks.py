@@ -35,7 +35,7 @@ class Client():
         pygame.mixer.pre_init(44100,16,2,4096)
         pygame.init()
         self.background = pygame.image.load("images/background.jpg")
-        self.screen = pygame.display.set_mode((scr_width,scr_height),0,32)
+        self.screen = pygame.display.set_mode((scr_width,scr_height),pygame.FULLSCREEN,32)
         self.gameClock = pygame.time.Clock()
         self.separatorWall = wall()
         self.A = tank((100,scr_height),(211,0,0),1)
@@ -85,8 +85,8 @@ class Client():
         self.A.angle = data[0]['gunAngle']
         self.B.angle = data[1]['gunAngle']
         '''
-        self.A.health = data[0]['health']
-        self.B.health = data[1]['health']
+        #self.A.health = data[0]['health']
+        #self.B.health = data[1]['health']
         if data[0]['fire'] == 1:
             self.A.fire()
         if data[1]['fire'] == 1:
@@ -127,16 +127,10 @@ class Client():
                         self.handleKey("gunZero")
                     if event.key == K_SPACE:
                         self.handleKey("fireZero")
-            if time.time() - self.lastUpdate > 0.5:
-                gunAngles = str((self.A.angle,self.B.angle))
-                #self.client.sendto(gunAngles,(self.server,self.serverPort))
-                self.lastUpdate = time.time()
             self.screen.blit(self.background,(0,0))
             ctime = self.gameClock.tick()/1000.
             self.A.drawTank(self.screen,ctime)
             self.B.drawTank(self.screen,ctime)
-            if self.A.gotHit() == True:
-                self.handleKey("hit")
             self.separatorWall.draw(self.screen)
             self.separatorWall.hit_wall()
             for x in active_projectiles:

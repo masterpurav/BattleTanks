@@ -87,6 +87,7 @@ class tank:
                     active_projectiles.remove(x)
                     self.health -= 10
 
+
     def drawHealthBar(self, surface):
         if self.health > 25:
             color_health_remaining = (53,155,41)
