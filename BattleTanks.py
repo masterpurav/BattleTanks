@@ -10,19 +10,25 @@ from tank import tank
 from game_constants import *
 from projectile import active_projectiles, projectile
 from wall import wall
+import time
+import threading
 
 class Client():
+
     def __init__(self):
+        self.lastUpdate = time.time()
         self.client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.server = socket.gethostname()
+        self.server = "192.168.1.6"
         self.serverPort = 5555
         self.readList = [self.client]
-        try:
-            self.client.connect((self.server,self.serverPort))
-        except:
-            print 'Unable to connect to server'
-            exit()
-        print 'Successfully connnected to server'
+        #try:
+            #self.client.sendto("c",(self.server,self.serverPort))
+        self.client.connect((self.server,self.serverPort))
+        #except:
+            #print 'Unable to connect to server'
+            #exit()
+        #self.client.send("c")
+        print 'Successfully connected to server'
         self.initializeGame()
 
     def initializeGame(self):
@@ -52,24 +58,35 @@ class Client():
             self.client.sendto("g",(self.server,self.serverPort))
         elif action == "fireZero":
             self.client.sendto("z",(self.server,self.serverPort))
+        elif action == "hit":
+            self.client.sendto("h",(self.server,self.serverPort))
         elif action == "quit":
             self.client.sendto("q",(self.server,self.serverPort))
             self.client.close()
             exit()
 
     def handleData(self,data):
+        data = data[0:181]
         print data
         try:
             data = ast.literal_eval(data)
         except:
-            print "Malformed string"
+            print "Malformed string, ", data
             return
         self.A.dir = data[0]['tankDir']
         self.B.dir = data[1]['tankDir']
-        self.A.gun_dir = data[0]['gunDir']
-        self.B.gun_dir = data[1]['gunDir']
+        #self.A.angle = data[0]['gunAngle']
+        #self.B.gun_dir = data[1]['gunAngle']
+        self.A.angle = data[0]['gunAngle']
+        self.B.angle = data[1]['gunAngle']
+        '''
+        self.A.tank_pos_x = data[0]['tankpos']
+        self.B.tank_pos_x = data[1]['tankpos']
+        self.A.angle = data[0]['gunAngle']
+        self.B.angle = data[1]['gunAngle']
+        '''
         self.A.health = data[0]['health']
-        self.health = data[1]['health']
+        self.B.health = data[1]['health']
         if data[0]['fire'] == 1:
             self.A.fire()
         if data[1]['fire'] == 1:
@@ -80,11 +97,12 @@ class Client():
         while running:
             readable, writable, exceptional = select.select(self.readList,[],[],0)
             for r in readable:
-                data = r.recv(111)
+                data = r.recv(181)
                 if not data:
                     print 'Server disconnected'
                     exit()
                 else:
+                    print data
                     self.handleData(data)
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -109,14 +127,20 @@ class Client():
                         self.handleKey("gunZero")
                     if event.key == K_SPACE:
                         self.handleKey("fireZero")
+            if time.time() - self.lastUpdate > 0.5:
+                gunAngles = str((self.A.angle,self.B.angle))
+                #self.client.sendto(gunAngles,(self.server,self.serverPort))
+                self.lastUpdate = time.time()
             self.screen.blit(self.background,(0,0))
-            time = self.gameClock.tick()/1000.
-            self.A.drawTank(self.screen,time)
-            self.B.drawTank(self.screen,time)
+            ctime = self.gameClock.tick()/1000.
+            self.A.drawTank(self.screen,ctime)
+            self.B.drawTank(self.screen,ctime)
+            if self.A.gotHit() == True:
+                self.handleKey("hit")
             self.separatorWall.draw(self.screen)
             self.separatorWall.hit_wall()
             for x in active_projectiles:
-                x.drawProjectile(self.screen,time)
+                x.drawProjectile(self.screen,ctime)
             pygame.display.update()
 
 if __name__ == '__main__':
