@@ -41,7 +41,7 @@ def handleClientData(sock,data):
         elif data[i] == "z":
             gameData[player]['fire'] = 0
         elif data[i] == "h":
-            gameData[abs(1-i)]['health'] -= 10
+            gameData[abs(1-player)]['health'] -= 10
         elif data[i] == "q":
             print "Client disconnected"
             connections.remove(sock)
@@ -56,12 +56,10 @@ def handleClientData(sock,data):
 
 if __name__ == '__main__':
     gameData = [{
-    'health':100,
     'tankDir':0,
     'gunAngle':0,
     'fire':0
     },{
-    'health':100,
     'tankDir':0,
     'gunAngle':0,
     'fire':0
