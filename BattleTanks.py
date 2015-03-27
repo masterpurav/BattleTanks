@@ -18,7 +18,7 @@ class Client():
     def __init__(self):
         self.lastUpdate = time.time()
         self.client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.server = "192.168.1.6"
+        self.server = "10.0.0.88"
         self.serverPort = 5555
         self.readList = [self.client]
         #try:
@@ -34,6 +34,7 @@ class Client():
     def initializeGame(self):
         pygame.mixer.pre_init(44100,16,2,4096)
         pygame.init()
+        pygame.key.set_repeat(50,50)
         self.background = pygame.image.load("images/background.jpg")
         self.screen = pygame.display.set_mode((scr_width,scr_height),pygame.FULLSCREEN,32)
         self.gameClock = pygame.time.Clock()
