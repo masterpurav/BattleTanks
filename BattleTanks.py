@@ -14,7 +14,7 @@ import time
 import threading
 
 class Client():
-
+    buffer = ""
     def __init__(self):
         self.lastUpdate = time.time()
         self.client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -34,7 +34,7 @@ class Client():
     def initializeGame(self):
         pygame.mixer.pre_init(44100,16,2,4096)
         pygame.init()
-        pygame.key.set_repeat(50,50)
+        #pygame.key.set_repeat(500,50)
         self.background = pygame.image.load("images/background.jpg")
         self.screen = pygame.display.set_mode((scr_width,scr_height),pygame.FULLSCREEN,32)
         self.gameClock = pygame.time.Clock()
@@ -66,32 +66,26 @@ class Client():
             self.client.close()
             exit()
 
-    def handleData(self,data):
-        data = data[0:181]
-        print data
-        try:
+    def handleData(self):
+        start = self.buffer.find('[')
+        end = self.buffer.find(']')
+        while(start != -1 and end != -1 ):
+            data = self.buffer[start:end+1]
+            print "Buffer initially", self.buffer
+            self.buffer = self.buffer[end+1:]
+            print "Data",data
+            print "Buffer finally", self.buffer
             data = ast.literal_eval(data)
-        except:
-            print "Malformed string, ", data
-            return
-        self.A.dir = data[0]['tankDir']
-        self.B.dir = data[1]['tankDir']
-        #self.A.angle = data[0]['gunAngle']
-        #self.B.gun_dir = data[1]['gunAngle']
-        self.A.angle = data[0]['gunAngle']
-        self.B.angle = data[1]['gunAngle']
-        '''
-        self.A.tank_pos_x = data[0]['tankpos']
-        self.B.tank_pos_x = data[1]['tankpos']
-        self.A.angle = data[0]['gunAngle']
-        self.B.angle = data[1]['gunAngle']
-        '''
-        #self.A.health = data[0]['health']
-        #self.B.health = data[1]['health']
-        if data[0]['fire'] == 1:
-            self.A.fire()
-        if data[1]['fire'] == 1:
-            self.B.fire()
+            self.A.dir = data[0]['tankDir']
+            self.B.dir = data[1]['tankDir']
+            self.A.angle = data[0]['gunAngle']
+            self.B.angle = data[1]['gunAngle']
+            if data[0]['fire'] == 1:
+                self.A.fire()
+            if data[1]['fire'] == 1:
+                self.B.fire()
+            start = self.buffer.find('[')
+            end = self.buffer.find(']')
 
     def run(self):
         running = True
@@ -103,8 +97,8 @@ class Client():
                     print 'Server disconnected'
                     exit()
                 else:
-                    print data
-                    self.handleData(data)
+                    self.buffer += data
+            self.handleData()
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.handleKey("quit")
