@@ -42,6 +42,10 @@ def handleClientData(sock,data):
             connections.remove(sock)
             print "Removed from here ", sock
             print connections
+            gameData[player]['ready'] = 0
+        broadcast()
+
+def broadcast():
     for sock in connections:
         print connections
         try:
@@ -88,6 +92,7 @@ if __name__ == '__main__':
                     else:
                         player2 = str(sockObj)
                         gameData[1]['ready'] = 1
+                        broadcast()
                     #handleClientData(addr,data)
 
                 else:

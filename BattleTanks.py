@@ -15,7 +15,7 @@ import threading
 
 class Client():
     buffer = ""
-    start = False
+    ready = False
     def __init__(self):
         self.lastUpdate = time.time()
         self.client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -39,10 +39,6 @@ class Client():
         self.loading = pygame.image.load("images/loading.jpg")
         self.screen = pygame.display.set_mode((scr_width,scr_height),pygame.FULLSCREEN,32)
         self.screen.blit(self.loading,(0,0))
-        if self.start:
-            self.begin()
-
-    def begin(self):
         self.background = pygame.image.load("images/background.jpg")
         self.gameClock = pygame.time.Clock()
         self.separatorWall = wall()
@@ -89,10 +85,13 @@ class Client():
                 self.A.fire()
             if data[1]['fire'] == 1:
                 self.B.fire()
+            if (data[0]['ready'] == 1 and data[1]['ready'] == 1):
+                self.ready = True
+            else:
+                self.ready = False
             start = self.buffer.find('[')
             end = self.buffer.find(']')
-            if (data[0]['ready'] == 1 and data[1]['ready'] == 1):
-                self.start = True
+
 
     def run(self):
         running = True
@@ -130,14 +129,17 @@ class Client():
                             self.handleKey("gunZero")
                         if event.key == K_SPACE:
                             self.handleKey("fireZero")
-                self.screen.blit(self.background,(0,0))
-                ctime = self.gameClock.tick()/1000.
-                self.A.drawTank(self.screen,ctime)
-                self.B.drawTank(self.screen,ctime)
-                self.separatorWall.draw(self.screen)
-                self.separatorWall.hit_wall()
-                for x in active_projectiles:
-                    x.drawProjectile(self.screen,ctime)
+                if self.ready:
+                    self.screen.blit(self.background,(0,0))
+                    ctime = self.gameClock.tick()/1000.
+                    self.A.drawTank(self.screen,ctime)
+                    self.B.drawTank(self.screen,ctime)
+                    self.separatorWall.draw(self.screen)
+                    self.separatorWall.hit_wall()
+                    for x in active_projectiles:
+                        x.drawProjectile(self.screen,ctime)
+                else:
+                    self.screen.blit(self.loading,(0,0))
                 pygame.display.update()
         finally:
             #self.handleKey("quit")
