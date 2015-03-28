@@ -45,14 +45,18 @@ def handleClientData(sock,data):
         elif data[i] == "q":
             print "Client disconnected"
             connections.remove(sock)
+            print "Removed from here ", sock
+            print connections
     for sock in connections:
         print connections
         try:
             print gameData
             sock.send(str(gameData))
         except:
-            sock.close()
-            connections.remove(sock)
+            pass
+            #sock.close()
+            #connections.remove(sock)
+            #print "Removed ",sock
 
 if __name__ == '__main__':
     gameData = [{
@@ -67,7 +71,6 @@ if __name__ == '__main__':
     player1 = ""
     player2 = ""
     connections = []
-    readList = []
     port = 5555
     server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     print "server ",server
@@ -76,29 +79,33 @@ if __name__ == '__main__':
     server.listen(3)
     print 'Waiting for clients'
     while 1:
-        readable,writable,exceptional = select.select(connections,[],[],0)
-        for sock in readable:
-            if sock is server:
-                sockObj, addr = sock.accept()
-                connections.append(sockObj)
-                if player1 == "":
-                    player1 = str(sockObj)
+        try:
+            readable,writable,exceptional = select.select(connections,[],[],0)
+            for sock in readable:
+                if sock is server:
+                    sockObj, addr = sock.accept()
+                    connections.append(sockObj)
+                    if player1 == "":
+                        player1 = str(sockObj)
+                    else:
+                        player2 = str(sockObj)
+
+                    #handleClientData(addr,data)
+
                 else:
-                    player2 = str(sockObj)
-
-                #handleClientData(addr,data)
-
-            else:
-                try:
-                    data = sock.recv(1024)
-                    if data:
-                        message = data
-                        handleClientData(sock,message)
-                except:
-                    print "Client (%s,%s) disconnected" % addr
-                    sock.close()
-                    connections.remove(sock)
-                    continue
-
+                    try:
+                        data = sock.recv(1024)
+                        if data:
+                            message = data
+                            handleClientData(sock,message)
+                    except:
+                        print "Client (%s,%s) disconnected" % addr
+                        sock.close()
+                        connections.remove(sock)
+                        print "Removed from main ",sock
+                        continue
+        except:
+            connections.append(server)
+            continue
     server.close()
 
