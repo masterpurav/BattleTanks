@@ -25,6 +25,7 @@ class tank:
     gun_y = 0
     lastCast = time.time()
     health = 100
+    flag = ""
 
     # Constructor
     def __init__(self,(posx,posy),color,orientation):
@@ -108,4 +109,9 @@ class tank:
         leftVol = 1.0 - rightVol
         return (leftVol,rightVol)
 
+    def victory(self,surface):
+        self.flag = pygame.image.load("images/flag.png")
+        print "In Victory"
+        print self.tank_pos_x,self.tank_height
+        surface.blit(self.flag,(self.tank_pos_x,self.tank_height+250))
 

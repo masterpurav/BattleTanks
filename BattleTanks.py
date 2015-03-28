@@ -16,6 +16,8 @@ import threading
 class Client():
     buffer = ""
     ready = False
+    state = ""
+    gameover = False
     def __init__(self):
         self.lastUpdate = time.time()
         self.client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -64,6 +66,8 @@ class Client():
             self.client.sendto("z",(self.server,self.serverPort))
         elif action == "hit":
             self.client.sendto("h",(self.server,self.serverPort))
+        elif action == "end":
+            self.client.sendto("e",(self.server,self.serverPort))
         elif action == "quit":
             self.client.sendto("q",(self.server,self.serverPort))
             self.client.close()
@@ -109,26 +113,29 @@ class Client():
                 for event in pygame.event.get():
                     if event.type == QUIT:
                         self.handleKey("quit")
-                    if event.type == KEYDOWN:
-                        if event.key == K_LEFT:
-                            self.handleKey("left")
-                        if event.key == K_RIGHT:
-                            self.handleKey("right")
-                        if event.key == K_UP:
-                            self.handleKey("up")
-                        if event.key == K_DOWN:
-                            self.handleKey("down")
-                        if event.key == K_SPACE:
-                            self.handleKey("space")
-                        if event.key == K_ESCAPE:
-                            self.handleKey("quit")
-                    if event.type == KEYUP:
-                        if event.key == K_LEFT or event.key == K_RIGHT:
-                            self.handleKey("tankZero")
-                        if event.key == K_UP or event.key == K_DOWN:
-                            self.handleKey("gunZero")
-                        if event.key == K_SPACE:
-                            self.handleKey("fireZero")
+                    if self.gameover == False:
+                        if event.type == KEYDOWN:
+                            if event.key == K_LEFT:
+                                self.handleKey("left")
+                            if event.key == K_RIGHT:
+                                self.handleKey("right")
+                            if event.key == K_UP:
+                                self.handleKey("up")
+                            if event.key == K_DOWN:
+                                self.handleKey("down")
+                            if event.key == K_SPACE:
+                                self.handleKey("space")
+                            if event.key == K_ESCAPE:
+                                self.handleKey("quit")
+                        if event.type == KEYUP:
+                            if event.key == K_LEFT or event.key == K_RIGHT:
+                                self.handleKey("tankZero")
+                            if event.key == K_UP or event.key == K_DOWN:
+                                self.handleKey("gunZero")
+                            if event.key == K_SPACE:
+                                self.handleKey("fireZero")
+                    elif event.type == KEYDOWN:
+                        self.handleKey("quit")
                 if self.ready:
                     self.screen.blit(self.background,(0,0))
                     ctime = self.gameClock.tick()/1000.
@@ -138,6 +145,14 @@ class Client():
                     self.separatorWall.hit_wall()
                     for x in active_projectiles:
                         x.drawProjectile(self.screen,ctime)
+                    if self.A.health <= 0:
+                        print "A lost"
+                        self.B.victory(self.screen)
+                        self.gameover = True
+                    if self.B.health <= 0:
+                        print "B lost"
+                        self.A.victory(self.screen)
+                        self.gameover = True
                 else:
                     self.screen.blit(self.loading,(0,0))
                 pygame.display.update()
