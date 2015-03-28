@@ -34,7 +34,7 @@ class Client():
     def initializeGame(self):
         pygame.mixer.pre_init(44100,16,2,4096)
         pygame.init()
-        #pygame.key.set_repeat(500,50)
+        pygame.key.set_repeat(50,50)
         self.background = pygame.image.load("images/background.jpg")
         self.screen = pygame.display.set_mode((scr_width,scr_height),pygame.FULLSCREEN,32)
         self.gameClock = pygame.time.Clock()
@@ -71,10 +71,8 @@ class Client():
         end = self.buffer.find(']')
         while(start != -1 and end != -1 ):
             data = self.buffer[start:end+1]
-            print "Buffer initially", self.buffer
             self.buffer = self.buffer[end+1:]
-            print "Data",data
-            print "Buffer finally", self.buffer
+            print data
             data = ast.literal_eval(data)
             self.A.dir = data[0]['tankDir']
             self.B.dir = data[1]['tankDir']
@@ -89,49 +87,52 @@ class Client():
 
     def run(self):
         running = True
-        while running:
-            readable, writable, exceptional = select.select(self.readList,[],[],0)
-            for r in readable:
-                data = r.recv(181)
-                if not data:
-                    print 'Server disconnected'
-                    exit()
-                else:
-                    self.buffer += data
-            self.handleData()
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    self.handleKey("quit")
-                if event.type == KEYDOWN:
-                    if event.key == K_LEFT:
-                        self.handleKey("left")
-                    if event.key == K_RIGHT:
-                        self.handleKey("right")
-                    if event.key == K_UP:
-                        self.handleKey("up")
-                    if event.key == K_DOWN:
-                        self.handleKey("down")
-                    if event.key == K_SPACE:
-                        self.handleKey("space")
-                    if event.key == K_ESCAPE:
+        try:
+            while running:
+                readable, writable, exceptional = select.select(self.readList,[],[],0)
+                for r in readable:
+                    data = r.recv(181)
+                    if not data:
+                        print 'Server disconnected'
+                        exit()
+                    else:
+                        self.buffer += data
+                self.handleData()
+                for event in pygame.event.get():
+                    if event.type == QUIT:
                         self.handleKey("quit")
-                if event.type == KEYUP:
-                    if event.key == K_LEFT or event.key == K_RIGHT:
-                        self.handleKey("tankZero")
-                    if event.key == K_UP or event.key == K_DOWN:
-                        self.handleKey("gunZero")
-                    if event.key == K_SPACE:
-                        self.handleKey("fireZero")
-            self.screen.blit(self.background,(0,0))
-            ctime = self.gameClock.tick()/1000.
-            self.A.drawTank(self.screen,ctime)
-            self.B.drawTank(self.screen,ctime)
-            self.separatorWall.draw(self.screen)
-            self.separatorWall.hit_wall()
-            for x in active_projectiles:
-                x.drawProjectile(self.screen,ctime)
-            pygame.display.update()
-
+                    if event.type == KEYDOWN:
+                        if event.key == K_LEFT:
+                            self.handleKey("left")
+                        if event.key == K_RIGHT:
+                            self.handleKey("right")
+                        if event.key == K_UP:
+                            self.handleKey("up")
+                        if event.key == K_DOWN:
+                            self.handleKey("down")
+                        if event.key == K_SPACE:
+                            self.handleKey("space")
+                        if event.key == K_ESCAPE:
+                            self.handleKey("quit")
+                    if event.type == KEYUP:
+                        if event.key == K_LEFT or event.key == K_RIGHT:
+                            self.handleKey("tankZero")
+                        if event.key == K_UP or event.key == K_DOWN:
+                            self.handleKey("gunZero")
+                        if event.key == K_SPACE:
+                            self.handleKey("fireZero")
+                self.screen.blit(self.background,(0,0))
+                ctime = self.gameClock.tick()/1000.
+                self.A.drawTank(self.screen,ctime)
+                self.B.drawTank(self.screen,ctime)
+                self.separatorWall.draw(self.screen)
+                self.separatorWall.hit_wall()
+                for x in active_projectiles:
+                    x.drawProjectile(self.screen,ctime)
+                pygame.display.update()
+        finally:
+            #self.handleKey("quit")
+            pass
 if __name__ == '__main__':
     client = Client()
     client.run()
