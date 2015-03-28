@@ -28,14 +28,9 @@ def handleClientData(sock,data):
         elif data[i] == "t":
             gameData[player]['tankDir'] = 0
         elif data[i] == "u":
-            #gameData[player]['gunDir'] = -1
             gameData[player]['gunAngle'] += 0.001
-            #gameData[player]['gunAngle'] = formatAngle(gameData[player]['gunAngle'])
         elif data[i] == "d":
             gameData[player]['gunAngle'] -= 0.001
-            #gameData[player]['gunAngle'] = formatAngle(gameData[player]['gunAngle'])
-        #elif data[i] == "g":
-            #gameData[player]['gunDir'] = 0
         elif data[i] == "f":
             gameData[player]['fire'] = 1
         elif data[i] == "z":
@@ -60,10 +55,12 @@ def handleClientData(sock,data):
 
 if __name__ == '__main__':
     gameData = [{
+    'ready':0,
     'tankDir':0,
     'gunAngle':0,
     'fire':0
     },{
+    'ready':0,
     'tankDir':0,
     'gunAngle':0,
     'fire':0
@@ -87,9 +84,10 @@ if __name__ == '__main__':
                     connections.append(sockObj)
                     if player1 == "":
                         player1 = str(sockObj)
+                        gameData[0]['ready'] = 1
                     else:
                         player2 = str(sockObj)
-
+                        gameData[1]['ready'] = 1
                     #handleClientData(addr,data)
 
                 else:

@@ -15,6 +15,7 @@ import threading
 
 class Client():
     buffer = ""
+    start = False
     def __init__(self):
         self.lastUpdate = time.time()
         self.client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -35,8 +36,14 @@ class Client():
         pygame.mixer.pre_init(44100,16,2,4096)
         pygame.init()
         pygame.key.set_repeat(50,50)
-        self.background = pygame.image.load("images/background.jpg")
+        self.loading = pygame.image.load("images/loading.jpg")
         self.screen = pygame.display.set_mode((scr_width,scr_height),pygame.FULLSCREEN,32)
+        self.screen.blit(self.loading,(0,0))
+        if self.start:
+            self.begin()
+
+    def begin(self):
+        self.background = pygame.image.load("images/background.jpg")
         self.gameClock = pygame.time.Clock()
         self.separatorWall = wall()
         self.A = tank((100,scr_height),(211,0,0),1)
@@ -84,6 +91,8 @@ class Client():
                 self.B.fire()
             start = self.buffer.find('[')
             end = self.buffer.find(']')
+            if (data[0]['ready'] == 1 and data[1]['ready'] == 1):
+                self.start = True
 
     def run(self):
         running = True
