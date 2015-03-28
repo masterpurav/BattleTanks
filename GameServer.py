@@ -4,15 +4,9 @@ import socket
 import select
 import game_constants
 
-def formatAngle(number):
-    number = round(number,3)
-    x,sep,y = str(number).partition('.')
-    for x in range(len(y),4):
-        number+="0"
-    print number
-
 def handleClientData(sock,data):
     player = -1
+    global player1
     if str(sock) == player1:
         player = 0
         print "Player1 played"
@@ -41,13 +35,16 @@ def handleClientData(sock,data):
             print "Client disconnected"
             connections.remove(sock)
             print "Removed from here ", sock
-            print connections
+            if player == 0:
+                player1 = ""
+                print "Setting player1 to empty",player1
             gameData[player]['ready'] = 0
+            print "Dropped player is ",player
+
         broadcast()
 
 def broadcast():
     for sock in connections:
-        print connections
         try:
             print gameData
             sock.send(str(gameData))
@@ -89,9 +86,13 @@ if __name__ == '__main__':
                     if player1 == "":
                         player1 = str(sockObj)
                         gameData[0]['ready'] = 1
+                        print "Player1 ready"
+                        broadcast()
                     else:
+                        print "Player 1 : ",player1
                         player2 = str(sockObj)
                         gameData[1]['ready'] = 1
+                        print "Player2 ready"
                         broadcast()
                     #handleClientData(addr,data)
 
