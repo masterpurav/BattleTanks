@@ -23,7 +23,7 @@ class Game:
 
     def clearGameData(self):
         self.connections = []
-        self.gameData = gameData = [{
+        self.gameData = [{
         'ready':0,
         'tankDir':0,
         'gunAngle':0,
@@ -88,6 +88,8 @@ class Game:
                     print "Setting player1 to empty",self.player1
                 self.gameData[player]['ready'] = 0
                 print "Dropped player is ",player
+                if len(self.connections) == 0:
+                    self.endGame()
 
             self.broadcast()
 
@@ -101,6 +103,14 @@ class Game:
                 #sock.close()
                 #connections.remove(sock)
                 #print "Removed ",sock
+
+    def endGame(self):
+        for x in cgMap.keys():
+            if cgMap[x] == self:
+                del cgMap[x]
+        games.remove(self)
+        print "Game ended"
+        print cgMap
 
 if __name__ == '__main__':
     games = []
@@ -141,12 +151,9 @@ if __name__ == '__main__':
 
                 else:
                     try:
-                        print "Client is readable."
-                        print "CG Map : ",cgMap
                         data = sock.recv(1024)
                         if data:
                             message = data
-                            print "Games running : ",len(games)
                             game = cgMap[str(sock)]
                             game.handleClientData(sock,message)
                     except Exception as e:
