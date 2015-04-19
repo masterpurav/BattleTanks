@@ -21,20 +21,19 @@ class Client():
     def __init__(self):
         self.lastUpdate = time.time()
         self.client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.server = "10.0.0.88"
         self.serverPort = 5555
         self.readList = [self.client]
-        #try:
-            #self.client.sendto("c",(self.server,self.serverPort))
-        self.client.connect((self.server,self.serverPort))
-        #except:
-            #print 'Unable to connect to server'
-            #exit()
+        self.server = ""
         #self.client.send("c")
-        print 'Successfully connected to server'
+        #print 'Successfully connected to server'
+        #self.initializeGame()
+
+    def setServer(self,server):
+        self.server = server
         self.initializeGame()
 
     def initializeGame(self):
+        self.client.connect((self.server,self.serverPort))
         pygame.mixer.pre_init(44100,16,2,4096)
         pygame.init()
         pygame.key.set_repeat(50,50)
