@@ -50,6 +50,7 @@ class Main():
         self.state = "quit"
 
     def menuPlay(self):
+        self.ip = ""
         self.state = "play"
         #self.running = False
 
@@ -60,6 +61,8 @@ class Main():
             client.run()
         except Exception as e:
             self.state = "error"
+
+            print str(e.__unicode__())
     def handleInput(self):
         self.ip = ""
 

@@ -70,7 +70,7 @@ class Client():
         elif action == "quit":
             self.client.sendto("q",(self.server,self.serverPort))
             self.client.close()
-            exit()
+            #exit()
 
     def handleData(self):
         start = self.buffer.find('[')
