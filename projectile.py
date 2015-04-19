@@ -17,6 +17,7 @@ class projectile:
     dir_y = 1
     launch_velocity = 1000
     orientation = 1
+    image = pygame.image.load("images/fire_2.png")
     def __init__(self,(posx,posy),angle,orientation):
         self.pos_x = posx
         self.pos_y = posy
@@ -31,6 +32,7 @@ class projectile:
         self.pos_y -= time*self.vel_y*self.dir_y
         if(self.pos_y > scr_height):
             active_projectiles.remove(self)
-        pygame.draw.circle(surface,self.color,(int(self.pos_x), int(self.pos_y)),6,0)
+        surface.blit(self.image,(int(self.pos_x), int(self.pos_y)))
+        #pygame.draw.circle(surface,self.color,(int(self.pos_x), int(self.pos_y)),6,0)
 
 

@@ -59,10 +59,11 @@ class Main():
             client = BattleTanks.Client()
             client.setServer(''.join(self.ip.split(" ")))
             client.run()
+        except IOError as e:
+            print str(e.__unicode__())
+            self.state = "mainMenu"
         except Exception as e:
             self.state = "error"
-
-            print str(e.__unicode__())
     def handleInput(self):
         self.ip = ""
 

@@ -24,6 +24,7 @@ class Client():
         self.serverPort = 5555
         self.readList = [self.client]
         self.server = ""
+        self.player = ""
         #self.client.send("c")
         #print 'Successfully connected to server'
         #self.initializeGame()
@@ -43,6 +44,7 @@ class Client():
         self.background = pygame.image.load("images/background.jpg")
         self.gameClock = pygame.time.Clock()
         self.separatorWall = wall()
+        self.canon = pygame.image.load("images/fire_2.png")
         self.A = tank((100,scr_height),(211,0,0),1)
         self.B = tank((scr_width - 100,scr_height),(0,100,0),-1)
 
@@ -136,6 +138,8 @@ class Client():
                     elif event.type == KEYDOWN:
                         self.handleKey("quit")
                 if self.ready:
+                    if self.player != 1:
+                        self.player = 2
                     self.screen.blit(self.background,(0,0))
                     ctime = self.gameClock.tick()/1000.
                     self.A.drawTank(self.screen,ctime)
@@ -145,7 +149,10 @@ class Client():
                     for x in active_projectiles:
                         x.drawProjectile(self.screen,ctime)
                     if self.A.health <= 0:
-                        print "A lost"
+                        if self.player == 1:
+                            print "You lost"
+                        else:
+                            print "You won"
                         self.B.victory(self.screen)
                         self.gameover = True
                     if self.B.health <= 0:
@@ -153,7 +160,9 @@ class Client():
                         self.A.victory(self.screen)
                         self.gameover = True
                 else:
+                    self.player = 1
                     self.screen.blit(self.loading,(0,0))
+                print self.player
                 pygame.display.update()
         finally:
             #self.handleKey("quit")
