@@ -159,6 +159,7 @@ class Client():
         finally:
             #self.handleKey("quit")
             pass
-if __name__ == '__main__':
-    client = Client()
-    client.run()
+
+#if __name__ == '__main__':
+    #client = Client()
+    #client.run()
