@@ -35,8 +35,10 @@ class projectile:
         self.pos_y -= ctime*self.vel_y*self.dir_y
         if(self.pos_y > scr_height):
             if self.type == 2:
-                napalm_region[str(time.time())] = (int(self.pos_x))
-                print napalm_region
+                if int(self.pos_x) > scr_width/2:
+                    napalm_region[str(time.time())] = (int(self.pos_x))
+                else:
+                    napalm_region[str(time.time())] = (int(self.pos_x)-napalm_width)
             active_projectiles.remove(self)
         if self.type == 1:
             pygame.draw.circle(surface,self.color,(int(self.pos_x), int(self.pos_y)),6,0)
