@@ -175,15 +175,17 @@ class Client():
                     self.A.drawNapalm(self.screen)
                     self.B.drawNapalm(self.screen)
                     if self.player == 1:
-                        if self.A.gotHit() == 1:
+                        if self.A.gotHit() == True:
                             self.handleKey("hit")
-                        elif self.A.gotHit() == 2:
+                        if self.A.gotBurnt() == True:
                             self.handleKey("burn")
                     else:
-                        if self.B.gotHit() == 1:
+                        if self.B.gotHit() == True:
                             self.handleKey("hit")
-                        elif self.B.gotHit() == 2:
+                        if self.B.gotBurnt() == True:
                             self.handleKey("burn")
+
+
                     self.separatorWall.draw(self.screen)
                     self.separatorWall.hit_wall()
                     for x in active_projectiles:

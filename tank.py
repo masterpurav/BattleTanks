@@ -98,15 +98,16 @@ class tank:
                 if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
                     active_projectiles.remove(x)
                     #self.health -= 10
-                    return 1
+                    return True
+
+    def gotBurnt(self):
         left = self.tank_pos_x-self.tank_width/2
         right = self.tank_pos_x+self.tank_width/2
         for x in napalm_region:
             if ((left > napalm_region[x] and left < napalm_region[x]+napalm_width) or (right > napalm_region[x] and right < napalm_region[x]+napalm_width)):
                 if(time.time() - self.gotBurnt > 0.5):
                     self.gotBurnt = time.time()
-                    return 2
-        return 3
+                    return True
 
 
     def drawHealthBar(self, surface):
@@ -131,15 +132,11 @@ class tank:
 
     def victory(self,surface):
         self.flag = pygame.image.load("images/flag.png")
-        print "In Victory"
-        print self.tank_pos_x,self.tank_height
         surface.blit(self.flag,(self.tank_pos_x,self.tank_height+250))
 
     def drawNapalm(self,surface):
-        print napalm_region
         rem = 0
         for x in napalm_region:
-            print float(x) - float(time.time())
             if(float(time.time()) - float(x)< 5):
                 pygame.draw.line(surface,(0,0,0),(napalm_region[x],scr_height-10),(napalm_region[x]+napalm_width,scr_height-10),10)
             else:
