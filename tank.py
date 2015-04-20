@@ -26,6 +26,7 @@ class tank:
     gun_y = 0
     lastCast1 = time.time()
     lastCast2 = time.time()
+    gotBurnt = time.time()
     health = 100
     flag = ""
 
@@ -102,7 +103,8 @@ class tank:
         right = self.tank_pos_x+self.tank_width/2
         for x in napalm_region:
             if ((left > napalm_region[x] and left < napalm_region[x]+napalm_width) or (right > napalm_region[x] and right < napalm_region[x]+napalm_width)):
-                return True
+                if(time.time() - self.lastBurnt > 0.5):
+                    return True
 
 
     def drawHealthBar(self, surface):
