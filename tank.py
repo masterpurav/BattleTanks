@@ -98,14 +98,15 @@ class tank:
                 if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
                     active_projectiles.remove(x)
                     #self.health -= 10
-                    return True
+                    return 1
         left = self.tank_pos_x-self.tank_width/2
         right = self.tank_pos_x+self.tank_width/2
         for x in napalm_region:
             if ((left > napalm_region[x] and left < napalm_region[x]+napalm_width) or (right > napalm_region[x] and right < napalm_region[x]+napalm_width)):
                 if(time.time() - self.gotBurnt > 0.5):
                     self.gotBurnt = time.time()
-                    return True
+                    return 2
+        return 3
 
 
     def drawHealthBar(self, surface):

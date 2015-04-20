@@ -63,6 +63,8 @@ class Client():
             self.client.sendto("f",(self.server,self.serverPort))
         elif action == "ctrl":
             self.client.sendto("s",(self.server,self.serverPort))
+        elif action == "burn":
+            self.client.sendto("b",(self.server,self.serverPort))
         elif action == "ctrlZero":
             self.client.sendto("p",(self.server,self.serverPort))
         elif action == "tankZero":
@@ -173,11 +175,15 @@ class Client():
                     self.A.drawNapalm(self.screen)
                     self.B.drawNapalm(self.screen)
                     if self.player == 1:
-                        if self.A.gotHit() == True:
+                        if self.A.gotHit() == 1:
                             self.handleKey("hit")
+                        elif self.A.gotHit() == 2:
+                            self.handleKey("burn")
                     else:
-                        if self.B.gotHit() == True:
+                        if self.B.gotHit() == 1:
                             self.handleKey("hit")
+                        elif self.B.gotHit() == 2:
+                            self.handleKey("burn")
                     self.separatorWall.draw(self.screen)
                     self.separatorWall.hit_wall()
                     for x in active_projectiles:
