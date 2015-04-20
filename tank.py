@@ -71,11 +71,11 @@ class tank:
         self.drawHealthBar(surface)
         #self.gotHit()
 
-    def fire(self):
+    def fire(self,type):
         gunshot = pygame.mixer.Sound("sounds/gunshot.wav")
         if time.time() - self.lastCast > 1.5:
             self.lastCast = time.time()
-            p = projectile((self.gun_x,self.gun_y),self.angle,self.orientation)
+            p = projectile((self.gun_x,self.gun_y),self.angle,self.orientation,type)
             channel = gunshot.play()
             if channel is not None:
                 left,right = self.stereopan(self.tank_pos_x,scr_width)

@@ -45,6 +45,7 @@ class Main():
         x,y = self.textboxPos
         self.fontPos = (x+10,y+7)
         self.ip = ""
+        self.soundFlag = True
 
     def menuQuit(self):
         self.state = "quit"
@@ -114,32 +115,52 @@ class Main():
                 if self.play.get_rect().move(self.playPos).collidepoint(pygame.mouse.get_pos()) and self.state == "mainMenu":
                     #channel = mouseOver.play()
                     playButton = self.playF
+                    self.soundFlag = False
                 else:
+                    self.soundFlag = True
                     playButton = self.play
                 if self.quit.get_rect().move(self.quitPos).collidepoint(pygame.mouse.get_pos()) and self.state == "mainMenu":
+                    #channel = mouseOver.play()
+                    self.soundFlag = False
                     quitButton = self.quitF
                 else:
+                    self.soundFlag = True
                     quitButton = self.quit
                 if self.yes.get_rect().move(self.yesPos).collidepoint(pygame.mouse.get_pos()):
                     yesButton = self.yesF
+                    self.soundFlag = False
+                    #channel = mouseOver.play()
                 else:
+                    self.soundFlag = True
                     yesButton = self.yes
                 if self.no.get_rect().move(self.noPos).collidepoint(pygame.mouse.get_pos()):
                     noButton = self.noF
+                    self.soundFlag = False
+                    #channel = mouseOver.play()
                 else:
+                    self.soundFlag = True
                     noButton = self.no
                 if self.connect.get_rect().move(self.connectPos).collidepoint(pygame.mouse.get_pos()):
                     connectButton = self.connectF
+                    #channel = mouseOver.play()
+                    self.soundFlag = False
                 else:
+                    self.soundFlag = True
                     connectButton = self.connect
                 if self.cancel.get_rect().move(self.cancelPos).collidepoint(pygame.mouse.get_pos()):
                     cancelButton = self.cancelF
+                    self.soundFlag = False
+                    #channel = mouseOver.play()
                 else:
+                    self.soundFlag = True
                     cancelButton = self.cancel
                 if self.ok.get_rect().move(self.okPos).collidepoint(pygame.mouse.get_pos()):
                     okButton = self.okF
+                    self.soundFlag = False
+                    #channel = mouseOver.play()
                 else:
                     okButton = self.ok
+                    self.soundFlag = True
                 if event.type == MOUSEBUTTONDOWN:
                     print event.pos
                     cancelPos = event.pos

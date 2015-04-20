@@ -59,6 +59,10 @@ class Client():
             self.client.sendto("d",(self.server,self.serverPort))
         elif action == "space":
             self.client.sendto("f",(self.server,self.serverPort))
+        elif action == "ctrl":
+            self.client.sendto("s",(self.server,self.serverPort))
+        elif action == "ctrlZero":
+            self.client.sendto("p",(self.server,self.serverPort))
         elif action == "tankZero":
             self.client.sendto("t",(self.server,self.serverPort))
         elif action == "gunZero":
@@ -89,9 +93,13 @@ class Client():
             self.A.health = data[0]['health']
             self.B.health = data[1]['health']
             if data[0]['fire'] == 1:
-                self.A.fire()
+                self.A.fire(1)
             if data[1]['fire'] == 1:
-                self.B.fire()
+                self.B.fire(1)
+            if data[0]['napalm'] == 1:
+                self.A.fire(2)
+            if data[1]['napalm'] == 1:
+                self.B.fire(2)
             if (data[0]['ready'] == 1 and data[1]['ready'] == 1):
                 self.ready = True
             else:
@@ -128,6 +136,8 @@ class Client():
                                 self.handleKey("down")
                             if event.key == K_SPACE:
                                 self.handleKey("space")
+                            if event.key == KMOD_CTRL:
+                                self.handleKey("ctrl")
                             if event.key == K_ESCAPE:
                                 self.handleKey("quit")
                         if event.type == KEYUP:
@@ -137,6 +147,8 @@ class Client():
                                 self.handleKey("gunZero")
                             if event.key == K_SPACE:
                                 self.handleKey("fireZero")
+                            if event.key == KMOD_CTRL:
+                                self.handleKey("ctrlZero")
                     elif event.type == KEYDOWN:
                         self.handleKey("quit")
                 if self.ready:
@@ -146,6 +158,7 @@ class Client():
                     ctime = self.gameClock.tick()/1000.
                     self.A.drawTank(self.screen,ctime)
                     self.B.drawTank(self.screen,ctime)
+                    projectile.drawNapalm(self.screen)
                     if self.player == 1:
                         if self.A.gotHit() == True:
                             self.handleKey("hit")
