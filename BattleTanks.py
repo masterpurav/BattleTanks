@@ -77,6 +77,8 @@ class Client():
             self.client.sendto("h",(self.server,self.serverPort))
         elif action == "end":
             self.client.sendto("e",(self.server,self.serverPort))
+        elif action == "shield":
+            self.client.sendto("x",(self.server,self.serverPort))
         elif action == "quit":
             self.client.sendto("q",(self.server,self.serverPort))
             self.client.close()
@@ -96,6 +98,8 @@ class Client():
             self.B.angle = data[1]['gunAngle']
             self.A.health = data[0]['health']
             self.B.health = data[1]['health']
+            self.A.shield = data[0]['shield']
+            self.B.shield = data[1]['shield']
             if data[0]['fire'] == 1:
                 self.A.fire(1)
             if data[1]['fire'] == 1:
@@ -119,8 +123,6 @@ class Client():
     def defeatEvent(self,screen):
         screen.blit(self.defeat,(600,200))
         self.gameover = True
-
-
 
     def run(self):
         running = True
@@ -154,6 +156,8 @@ class Client():
                                 self.handleKey("ctrl")
                             if event.key == K_ESCAPE:
                                 self.handleKey("quit")
+                            if event.key == K_LALT:
+                                self.handleKey("shield")
                         if event.type == KEYUP:
                             if event.key == K_LEFT or event.key == K_RIGHT:
                                 self.handleKey("tankZero")

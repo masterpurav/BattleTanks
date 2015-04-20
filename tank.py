@@ -29,6 +29,8 @@ class tank:
     gotBurnt = time.time()
     health = 100
     flag = ""
+    shield = 0
+
 
     # Constructor
     def __init__(self,(posx,posy),color,orientation):
@@ -36,6 +38,7 @@ class tank:
         self.tank_pos_y = posy
         self.tank_color = color
         self.orientation = orientation
+        self.shieldImage = pygame.image.load("images/shield.png")
 
 
     # Move left
@@ -72,7 +75,11 @@ class tank:
             self.tank_pos_x = max(self.tank_pos_x+time*self.speed*self.dir,scr_width/2+wall.wall_width/2+self.tank_width/2)
         self.angle += self.gun_dir * self.gun_velocity
         self.drawHealthBar(surface)
+        if self.shield == 1:
+            surface.blit(self.shieldImage,(self.tank_pos_x-114,self.tank_pos_y-80))
         #self.gotHit()
+
+
 
     def fire(self,type):
         gunshot = pygame.mixer.Sound("sounds/gunshot.wav")
@@ -93,21 +100,23 @@ class tank:
                 channel.set_volume(left,right)
 
     def gotHit(self):
-        if(time.time() - self.lastCast1 > 0.5):
-            for x in active_projectiles:
-                if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
-                    active_projectiles.remove(x)
-                    #self.health -= 10
-                    return True
+        if self.shield == 0:
+            if(time.time() - self.lastCast1 > 0.5):
+                for x in active_projectiles:
+                    if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
+                        active_projectiles.remove(x)
+                        #self.health -= 10
+                        return True
 
     def burnt(self):
-        left = self.tank_pos_x-self.tank_width/2
-        right = self.tank_pos_x+self.tank_width/2
-        for x in napalm_region:
-            if ((left > napalm_region[x] and left < napalm_region[x]+napalm_width) or (right > napalm_region[x] and right < napalm_region[x]+napalm_width)):
-                if(time.time() - self.gotBurnt > 1):
-                    self.gotBurnt = time.time()
-                    return True
+        if self.shield == 0:
+            left = self.tank_pos_x-self.tank_width/2
+            right = self.tank_pos_x+self.tank_width/2
+            for x in napalm_region:
+                if ((left > napalm_region[x] and left < napalm_region[x]+napalm_width) or (right > napalm_region[x] and right < napalm_region[x]+napalm_width)):
+                    if(time.time() - self.gotBurnt > 1):
+                        self.gotBurnt = time.time()
+                        return True
 
 
     def drawHealthBar(self, surface):

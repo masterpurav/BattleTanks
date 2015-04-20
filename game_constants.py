@@ -7,3 +7,4 @@ scr_width = 1280
 g = -1000
 napalm_width = 500
 napalm_region = {}
+shield = {}
