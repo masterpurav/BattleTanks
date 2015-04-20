@@ -29,17 +29,14 @@ class projectile:
         self.orientation = orientation
         active_projectiles.append(self)
 
-    def drawProjectile(self,surface,time):
-        self.pos_x += time*self.vel_x*self.orientation
-        self.vel_y += g*time*self.dir_y
-        self.pos_y -= time*self.vel_y*self.dir_y
+    def drawProjectile(self,surface,ctime):
+        self.pos_x += ctime*self.vel_x*self.orientation
+        self.vel_y += g*ctime*self.dir_y
+        self.pos_y -= ctime*self.vel_y*self.dir_y
         if(self.pos_y > scr_height):
             if self.type == 2:
-                if(int(self.pos_x) > scr_width/2):
-                    napalm_region[1] = int(self.pos_x)
-                    print str(napalm_region)+"2"
-                else:
-                    napalm_region[0] = int(self.pos_x)
+                napalm_region[str(time.time())] = (int(self.pos_x))
+                print napalm_region
             active_projectiles.remove(self)
         if self.type == 1:
             pygame.draw.circle(surface,self.color,(int(self.pos_x), int(self.pos_y)),6,0)

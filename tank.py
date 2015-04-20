@@ -1,6 +1,7 @@
 __author__ = 'Purav'
 
 import pygame
+import ast
 import math
 from game_constants import *
 from proj import projectile, active_projectiles
@@ -97,6 +98,12 @@ class tank:
                     active_projectiles.remove(x)
                     #self.health -= 10
                     return True
+        left = self.tank_pos_x-self.tank_width/2
+        right = self.tank_pos_x+self.tank_width/2
+        for x in napalm_region:
+            if ((left > napalm_region[x] and left < napalm_region[x]+napalm_width) or (right > napalm_region[x] and right < napalm_region[x]+napalm_width)):
+                return True
+
 
     def drawHealthBar(self, surface):
         if self.health > 25:
@@ -124,3 +131,16 @@ class tank:
         print self.tank_pos_x,self.tank_height
         surface.blit(self.flag,(self.tank_pos_x,self.tank_height+250))
 
+    def drawNapalm(self,surface):
+        print napalm_region
+        rem = 0
+        for x in napalm_region:
+            print float(x) - float(time.time())
+            if(float(time.time()) - float(x)< 5):
+                pygame.draw.line(surface,(0,0,0),(napalm_region[x],scr_height-10),(napalm_region[x]+napalm_width,scr_height-10),10)
+            else:
+                rem = x
+        try:
+            del napalm_region[rem]
+        except:
+            pass

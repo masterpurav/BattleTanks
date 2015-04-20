@@ -63,9 +63,10 @@ class Main():
         except IOError as e:
             print str(e.__unicode__())
             self.state = "mainMenu"
-        except Exception as e:
-            print str(e.__unicode__())
-            self.state = "error"
+        #except Exception as e:
+            #print str(e.__unicode__())
+            #self.state = "error"
+            #pass
 
     def handleInput(self):
         self.ip = ""

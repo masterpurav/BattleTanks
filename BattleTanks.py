@@ -118,11 +118,7 @@ class Client():
         screen.blit(self.defeat,(600,200))
         self.gameover = True
 
-    def drawNapalm(self,surface):
-        x = napalm_region[0]
-        y = napalm_region[1]
-        pygame.draw.line(surface,(0,0,0),(x,scr_height-10),(x+napalm_width,scr_height-10),10)
-        pygame.draw.line(surface,(32,43,232),(y,scr_height-10),(y+napalm_width,scr_height-10),10)
+
 
     def run(self):
         running = True
@@ -174,7 +170,8 @@ class Client():
                     ctime = self.gameClock.tick()/1000.
                     self.A.drawTank(self.screen,ctime)
                     self.B.drawTank(self.screen,ctime)
-                    self.drawNapalm(self.screen)
+                    self.A.drawNapalm(self.screen)
+                    self.B.drawNapalm(self.screen)
                     if self.player == 1:
                         if self.A.gotHit() == True:
                             self.handleKey("hit")
