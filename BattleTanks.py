@@ -8,7 +8,7 @@ from pygame.locals import *
 from sys import exit
 from tank import tank
 from game_constants import *
-from proj import active_projectiles, projectile,drawNapalm
+from proj import active_projectiles, projectile
 from wall import wall
 import time
 import threading
@@ -42,6 +42,8 @@ class Client():
         self.screen = pygame.display.set_mode((scr_width,scr_height),pygame.FULLSCREEN,32)
         self.screen.blit(self.loading,(0,0))
         self.background = pygame.image.load("images/background.jpg")
+        self.victory = pygame.image.load("images/victory.png")
+        self.defeat = pygame.image.load("images/you_lost.png")
         self.gameClock = pygame.time.Clock()
         self.separatorWall = wall()
         self.canon = pygame.image.load("images/fire_2.png")
@@ -108,6 +110,20 @@ class Client():
             end = self.buffer.find(']')
 
 
+    def victoryEvent(self,screen):
+        screen.blit(self.victory,(600,200))
+        self.gameover = True
+
+    def defeatEvent(self,screen):
+        screen.blit(self.defeat,(600,200))
+        self.gameover = True
+
+    def drawNapalm(self,surface):
+        x = napalm_region[0]
+        y = napalm_region[1]
+        pygame.draw.line(surface,(0,0,0),(x,scr_height-10),(x+napalm_width,scr_height-10),10)
+        pygame.draw.line(surface,(32,43,232),(y,scr_height-10),(y+napalm_width,scr_height-10),10)
+
     def run(self):
         running = True
         try:
@@ -158,7 +174,7 @@ class Client():
                     ctime = self.gameClock.tick()/1000.
                     self.A.drawTank(self.screen,ctime)
                     self.B.drawTank(self.screen,ctime)
-                    drawNapalm(self.screen)
+                    self.drawNapalm(self.screen)
                     if self.player == 1:
                         if self.A.gotHit() == True:
                             self.handleKey("hit")
@@ -170,19 +186,16 @@ class Client():
                     for x in active_projectiles:
                         x.drawProjectile(self.screen,ctime)
                     if self.A.health <= 0:
-                        if self.player == 1:
-                            print "You lost"
+                        if self.player == 2:
+                            self.victoryEvent(self.screen)
                         else:
-                            print "You won"
-                        self.B.victory(self.screen)
-                        self.gameover = True
+                            self.defeatEvent(self.screen)
+
                     if self.B.health <= 0:
                         if self.player == 1:
-                            print "You won"
+                            self.victoryEvent(self.screen)
                         else:
-                            print "You lost"
-                        self.A.victory(self.screen)
-                        self.gameover = True
+                            self.defeatEvent(self.screen)
                 else:
                     self.player = 1
                     self.screen.blit(self.loading,(0,0))

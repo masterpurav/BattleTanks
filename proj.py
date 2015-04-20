@@ -46,11 +46,6 @@ class projectile:
         else:
             surface.blit(self.image,(int(self.pos_x), int(self.pos_y)))
 
-def drawNapalm(surface):
-    x = napalm_region[0]
-    y = napalm_region[1]
-    pygame.draw.line(surface,(0,0,0),(x,scr_height-10),(x+napalm_width,scr_height-10),10)
-    pygame.draw.line(surface,(32,43,232),(y,scr_height-10),(y+napalm_width,scr_height-10),10)
 
 
 

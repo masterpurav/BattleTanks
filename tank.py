@@ -23,7 +23,8 @@ class tank:
     gun_velocity = 0.001   # Angular velocity of gun rotation
     gun_x = 0
     gun_y = 0
-    lastCast = time.time()
+    lastCast1 = time.time()
+    lastCast2 = time.time()
     health = 100
     flag = ""
 
@@ -73,8 +74,16 @@ class tank:
 
     def fire(self,type):
         gunshot = pygame.mixer.Sound("sounds/gunshot.wav")
-        if time.time() - self.lastCast > 1.5:
-            self.lastCast = time.time()
+        curTime = time.time()
+        if (curTime - self.lastCast1 > 1.5 and type == 1):
+            self.lastCast1 = time.time()
+            p = projectile((self.gun_x,self.gun_y),self.angle,self.orientation,type)
+            channel = gunshot.play()
+            if channel is not None:
+                left,right = self.stereopan(self.tank_pos_x,scr_width)
+                channel.set_volume(left,right)
+        if (curTime - self.lastCast2 > 7 and type == 2):
+            self.lastCast2 = time.time()
             p = projectile((self.gun_x,self.gun_y),self.angle,self.orientation,type)
             channel = gunshot.play()
             if channel is not None:
@@ -82,7 +91,7 @@ class tank:
                 channel.set_volume(left,right)
 
     def gotHit(self):
-        if(time.time() - self.lastCast > 0.5):
+        if(time.time() - self.lastCast1 > 0.5):
             for x in active_projectiles:
                 if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
                     active_projectiles.remove(x)
