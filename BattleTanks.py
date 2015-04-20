@@ -177,12 +177,12 @@ class Client():
                     if self.player == 1:
                         if self.A.gotHit() == True:
                             self.handleKey("hit")
-                        if self.A.gotBurnt() == True:
+                        if self.A.burnt() == True:
                             self.handleKey("burn")
                     else:
                         if self.B.gotHit() == True:
                             self.handleKey("hit")
-                        if self.B.gotBurnt() == True:
+                        if self.B.burnt() == True:
                             self.handleKey("burn")
 
 
