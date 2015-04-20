@@ -147,7 +147,7 @@ class Client():
                                 self.handleKey("gunZero")
                             if event.key == K_SPACE:
                                 self.handleKey("fireZero")
-                            if event.key == KMOD_CTRL:
+                            if event.key == K_LCTRL:
                                 self.handleKey("ctrlZero")
                     elif event.type == KEYDOWN:
                         self.handleKey("quit")
