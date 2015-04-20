@@ -8,7 +8,7 @@ from pygame.locals import *
 from sys import exit
 from tank import tank
 from game_constants import *
-from proj import active_projectiles, projectile,drawNapalm
+from proj import active_projectiles, projectile,napalmStrike
 from wall import wall
 import time
 import threading
@@ -158,7 +158,7 @@ class Client():
                     ctime = self.gameClock.tick()/1000.
                     self.A.drawTank(self.screen,ctime)
                     self.B.drawTank(self.screen,ctime)
-                    drawNapalm(self.screen)
+                    napalmStrike(self.screen)
                     if self.player == 1:
                         if self.A.gotHit() == True:
                             self.handleKey("hit")
