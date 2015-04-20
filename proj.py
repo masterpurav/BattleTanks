@@ -52,9 +52,9 @@ class projectile:
                         napalm_region[0] = int(x.pos_x)
                     active_projectiles.remove(x)
 
-    def drawNapalm(self,surface):
-        pygame.draw.line(surface,(32,43,232),(napalm_region[0],scr_width-10),(napalm_region[0]+napalm_width,scr_width-10),10)
-        pygame.draw.line(surface,(32,43,232),(napalm_region[1],scr_width-10),(napalm_region[1]+napalm_width,scr_width-10),10)
+def drawNapalm(surface):
+    pygame.draw.line(surface,(32,43,232),(napalm_region[0],scr_width-10),(napalm_region[0]+napalm_width,scr_width-10),10)
+    pygame.draw.line(surface,(32,43,232),(napalm_region[1],scr_width-10),(napalm_region[1]+napalm_width,scr_width-10),10)
 
 
 

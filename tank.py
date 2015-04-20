@@ -3,7 +3,7 @@ __author__ = 'Purav'
 import pygame
 import math
 from game_constants import *
-from projectile import projectile, active_projectiles
+from proj import projectile, active_projectiles
 from wall import wall
 import time
 

@@ -1,7 +1,7 @@
 __author__ = 'Purav'
 import pygame
 import game_constants
-from projectile import projectile, active_projectiles
+from proj import projectile, active_projectiles
 
 class wall:
     wall_height = 0
