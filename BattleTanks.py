@@ -136,7 +136,7 @@ class Client():
                                 self.handleKey("down")
                             if event.key == K_SPACE:
                                 self.handleKey("space")
-                            if event.key == KMOD_CTRL:
+                            if event.key == K_LCTRL:
                                 self.handleKey("ctrl")
                             if event.key == K_ESCAPE:
                                 self.handleKey("quit")
