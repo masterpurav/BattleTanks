@@ -86,6 +86,8 @@ class Client():
             self.B.dir = data[1]['tankDir']
             self.A.angle = data[0]['gunAngle']
             self.B.angle = data[1]['gunAngle']
+            self.A.health = data[0]['health']
+            self.B.health = data[1]['health']
             if data[0]['fire'] == 1:
                 self.A.fire()
             if data[1]['fire'] == 1:
@@ -144,6 +146,12 @@ class Client():
                     ctime = self.gameClock.tick()/1000.
                     self.A.drawTank(self.screen,ctime)
                     self.B.drawTank(self.screen,ctime)
+                    if self.player == 1:
+                        if self.A.gotHit() == True:
+                            self.handleKey("hit")
+                    else:
+                        if self.B.gotHit() == True:
+                            self.handleKey("hit")
                     self.separatorWall.draw(self.screen)
                     self.separatorWall.hit_wall()
                     for x in active_projectiles:
@@ -156,13 +164,15 @@ class Client():
                         self.B.victory(self.screen)
                         self.gameover = True
                     if self.B.health <= 0:
-                        print "B lost"
+                        if self.player == 1:
+                            print "You won"
+                        else:
+                            print "You lost"
                         self.A.victory(self.screen)
                         self.gameover = True
                 else:
                     self.player = 1
                     self.screen.blit(self.loading,(0,0))
-                print self.player
                 pygame.display.update()
         finally:
             #self.handleKey("quit")

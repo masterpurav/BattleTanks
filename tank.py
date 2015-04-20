@@ -69,7 +69,7 @@ class tank:
             self.tank_pos_x = max(self.tank_pos_x+time*self.speed*self.dir,scr_width/2+wall.wall_width/2+self.tank_width/2)
         self.angle += self.gun_dir * self.gun_velocity
         self.drawHealthBar(surface)
-        self.gotHit()
+        #self.gotHit()
 
     def fire(self):
         gunshot = pygame.mixer.Sound("sounds/gunshot.wav")
@@ -86,8 +86,8 @@ class tank:
             for x in active_projectiles:
                 if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
                     active_projectiles.remove(x)
-                    self.health -= 10
-
+                    #self.health -= 10
+                    return True
 
     def drawHealthBar(self, surface):
         if self.health > 25:
