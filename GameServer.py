@@ -91,6 +91,8 @@ class Game:
                 self.gameData[player]['napalm'] = 0
             elif data[i] == "h":
                 self.gameData[player]['health'] -= 10
+            elif data[i] == "b":
+                self.gameData[player]['health'] -= 3
             elif data[i] == "q":
                 print "Client disconnected"
                 self.connections.remove(sock)
