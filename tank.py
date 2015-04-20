@@ -104,6 +104,7 @@ class tank:
         for x in napalm_region:
             if ((left > napalm_region[x] and left < napalm_region[x]+napalm_width) or (right > napalm_region[x] and right < napalm_region[x]+napalm_width)):
                 if(time.time() - self.gotBurnt > 0.5):
+                    self.gotBurnt = time.time()
                     return True
 
 
