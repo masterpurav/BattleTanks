@@ -27,12 +27,14 @@ class Game:
         'ready':0,
         'tankDir':0,
         'gunAngle':0,
-        'fire':0
+        'fire':0,
+        'health':100
         },{
         'ready':0,
         'tankDir':0,
         'gunAngle':0,
-        'fire':0
+        'fire':0,
+        'health':100
         }]
         self.player1 = ""
         self.player2 = ""
@@ -78,7 +80,7 @@ class Game:
             elif data[i] == "z":
                 self.gameData[player]['fire'] = 0
             elif data[i] == "h":
-                self.gameData[abs(1-player)]['health'] -= 10
+                self.gameData[player]['health'] -= 10
             elif data[i] == "q":
                 print "Client disconnected"
                 self.connections.remove(sock)
