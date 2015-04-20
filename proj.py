@@ -29,13 +29,13 @@ class projectile:
         self.orientation = orientation
         active_projectiles.append(self)
 
-    def drawProjectile(self,surface,time,type):
+    def drawProjectile(self,surface,time):
         self.pos_x += time*self.vel_x*self.orientation
         self.vel_y += g*time*self.dir_y
         self.pos_y -= time*self.vel_y*self.dir_y
         if(self.pos_y > scr_height):
             active_projectiles.remove(self)
-        if type == 1:
+        if self.type == 1:
             pygame.draw.circle(surface,self.color,(int(self.pos_x), int(self.pos_y)),6,0)
         else:
             surface.blit(self.image,(int(self.pos_x), int(self.pos_y)))
