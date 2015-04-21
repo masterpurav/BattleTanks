@@ -173,9 +173,9 @@ class Client():
                 if self.ready:
                     print "In ready"
                     if self.dcount != 1:
-                        self.player = 2
-                    else:
                         self.player = 1
+                    else:
+                        self.player = 2
                     self.screen.blit(self.background,(0,0))
                     ctime = self.gameClock.tick()/1000.
                     self.A.drawTank(self.screen,ctime)
