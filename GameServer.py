@@ -2,7 +2,7 @@ __author__ = 'Purav'
 
 import socket
 import select
-import game_constants
+import time
 
 class Game:
 
@@ -12,18 +12,22 @@ class Game:
         'gunAngle':0,
         'fire':0,
         'health':100,
-        'napalm':0
+        'napalm':0,
+        'shield':0
         },{
         'ready':0,
         'tankDir':0,
         'gunAngle':0,
         'fire':0,
         'health':100,
-        'napalm':0
+        'napalm':0,
+        'shield':0
         }]
     player1 = ""
     player2 = ""
     connections = []
+    shield1 = ""
+    shield2 = ""
 
     def clearGameData(self):
         self.connections = []
@@ -33,14 +37,16 @@ class Game:
         'gunAngle':0,
         'fire':0,
         'health':100,
-        'napalm':0
+        'napalm':0,
+        'shield':0
         },{
         'ready':0,
         'tankDir':0,
         'gunAngle':0,
         'fire':0,
         'health':100,
-        'napalm':0
+        'napalm':0,
+        'shield':0
         }]
         self.player1 = ""
         self.player2 = ""
@@ -93,6 +99,10 @@ class Game:
                 self.gameData[player]['health'] -= 10
             elif data[i] == "b":
                 self.gameData[player]['health'] -= 3
+            elif data[i] == "x":
+                self.gameData[player]['shield'] = 1
+            elif data[i] == "w":
+                self.gameData[player]['shield'] = 0
             elif data[i] == "q":
                 print "Client disconnected"
                 self.connections.remove(sock)
@@ -104,7 +114,6 @@ class Game:
                 print "Dropped player is ",player
                 if len(self.connections) == 0:
                     self.endGame()
-
             self.broadcast()
 
     def broadcast(self):
@@ -182,4 +191,5 @@ if __name__ == '__main__':
             clients.append(server)
             continue
     server.close()
+
 
