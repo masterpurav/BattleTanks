@@ -18,6 +18,7 @@ class Client():
     ready = False
     state = ""
     gameover = False
+
     def __init__(self):
         self.lastUpdate = time.time()
         self.client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -50,6 +51,10 @@ class Client():
         self.canon = pygame.image.load("images/fire_2.png")
         self.A = tank((100,scr_height),(211,0,0),1)
         self.B = tank((scr_width - 100,scr_height),(0,100,0),-1)
+        self.shieldUsed1 = 0
+        self.shieldUsed2 = 0
+        self.shield1 = time.time()
+        self.shield2 = time.time()
 
     def handleKey(self,action):
         if action == "left":
@@ -80,6 +85,8 @@ class Client():
             self.client.sendto("e",(self.server,self.serverPort))
         elif action == "shield":
             self.client.sendto("x",(self.server,self.serverPort))
+        elif action == "remShield":
+            self.client.sendto("w",(self.server,self.serverPort))
         elif action == "quit":
             self.client.sendto("q",(self.server,self.serverPort))
             self.client.close()
@@ -158,7 +165,13 @@ class Client():
                             if event.key == K_ESCAPE:
                                 self.handleKey("quit")
                             if event.key == K_LALT:
-                                self.handleKey("shield")
+                                if self.player == 1 and self.shieldUsed1 == 0:
+                                    self.shield1 = time.time()
+                                    self.handleKey("shield")
+                                else:
+                                    if self.shieldUsed1 == 0:
+                                        self.shield2 = time.time()
+                                        self.handleKey("shield")
                         if event.type == KEYUP:
                             if event.key == K_LEFT or event.key == K_RIGHT:
                                 self.handleKey("tankZero")
@@ -187,13 +200,20 @@ class Client():
                             self.handleKey("hit")
                         if self.A.burnt() == True:
                             self.handleKey("burn")
+                        if self.A.shield == 1:
+                            if time.time() - self.shield1 > 5:
+                                self.handleKey("remShield")
+                                self.shieldUsed1 = 1
                     else:
                         if self.B.gotHit() == True:
                             self.handleKey("hit")
                         if self.B.burnt() == True:
                             print "Burning here"
                             self.handleKey("burn")
-
+                        if self.B.shield == 1:
+                            if time.time() - self.shield2 > 5:
+                                self.handleKey("remShield")
+                                self.shieldUsed2 = 1
 
                     self.separatorWall.draw(self.screen)
                     self.separatorWall.hit_wall()
