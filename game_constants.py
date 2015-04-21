@@ -5,6 +5,6 @@ scr_width = 1280
 #scr_height = 600
 #scr_width = 900
 g = -1000
-napalm_width = 500
+napalm_width = 270
 napalm_region = {}
 shield = {}

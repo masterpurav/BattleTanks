@@ -7,6 +7,7 @@ from game_constants import *
 from proj import projectile, active_projectiles
 from wall import wall
 import time
+import random
 
 class tank:
     # Tank attributes initialization
@@ -31,7 +32,21 @@ class tank:
     flag = ""
     shield = 0
 
+    class FlameSprite:
+        def __init__(self):
+            super(self.FlameSprite, self).__init__()
+            self.flames = []
+            self.flames1.append(pygame.image.load("images/flames_trial.png"))
+            self.flames2.append(pygame.image.load("images/flames_trial_2.png"))
+            self.flames3.append(pygame.image.load("images/flames_trial_3.png"))
+            self.index = 0
+            self.image = self.flames[self.index]
 
+        def update(self):
+            self.index += 1
+            if self.index > len(self.flames):
+                self.index = 0
+            self.image = self.flames[self.index]
     # Constructor
     def __init__(self,(posx,posy),color,orientation):
         self.tank_pos_x = posx
@@ -39,6 +54,11 @@ class tank:
         self.tank_color = color
         self.orientation = orientation
         self.shieldImage = pygame.image.load("images/shield.png")
+        self.flames1 = (pygame.image.load("images/flames_trial.png"))
+        self.flames2 = (pygame.image.load("images/flames_trial_2.png"))
+        self.flames3 = (pygame.image.load("images/flames_trial_3.png"))
+        self.flames = [self.flames1, self.flames2, self.flames3]
+
 
 
     # Move left
@@ -147,8 +167,12 @@ class tank:
     def drawNapalm(self,surface):
         rem = 0
         for x in napalm_region:
+            i = 0
             if(float(time.time()) - float(x)< 5):
-                pygame.draw.line(surface,(0,0,0),(napalm_region[x],scr_height-10),(napalm_region[x]+napalm_width,scr_height-10),10)
+                #pygame.draw.line(surface,(0,0,0),(napalm_region[x],scr_height-10),(napalm_region[x]+napalm_width,scr_height-10),10)
+                surface.blit(self.flames[random.randint(0,2)],(napalm_region[x],scr_height-150))
+                pygame.draw.line(surface,(0,0,0),(napalm_region[x],scr_height-150),(napalm_region[x],scr_height-600),3)
+                pygame.draw.line(surface,(0,0,0),(napalm_region[x]+napalm_width,scr_height-150),(napalm_region[x]+napalm_width,scr_height-600),3)
             else:
                 rem = x
         try:
