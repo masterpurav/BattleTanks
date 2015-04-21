@@ -20,6 +20,7 @@ class projectile:
     orientation = 1
     napalmTime = time.time()
     image = pygame.image.load("images/fire_2.png")
+
     def __init__(self,(posx,posy),angle,orientation,type):
         self.type = type
         self.pos_x = posx
