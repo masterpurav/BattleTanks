@@ -25,6 +25,7 @@ class Client():
         self.readList = [self.client]
         self.server = ""
         self.player = ""
+        self.dcount = 0
         #self.client.send("c")
         #print 'Successfully connected to server'
         #self.initializeGame()
@@ -170,8 +171,11 @@ class Client():
                     elif event.type == KEYDOWN:
                         self.handleKey("quit")
                 if self.ready:
-                    if self.player != 1:
+                    print "In ready"
+                    if self.dcount != 1:
                         self.player = 2
+                    else:
+                        self.player = 1
                     self.screen.blit(self.background,(0,0))
                     ctime = self.gameClock.tick()/1000.
                     self.A.drawTank(self.screen,ctime)
@@ -187,6 +191,7 @@ class Client():
                         if self.B.gotHit() == True:
                             self.handleKey("hit")
                         if self.B.burnt() == True:
+                            print "Burning here"
                             self.handleKey("burn")
 
 
@@ -206,7 +211,7 @@ class Client():
                         else:
                             self.defeatEvent(self.screen)
                 else:
-                    self.player = 1
+                    self.dcount += 1
                     self.screen.blit(self.loading,(0,0))
                 pygame.display.update()
         finally:
