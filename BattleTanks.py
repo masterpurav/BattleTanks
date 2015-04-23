@@ -24,7 +24,7 @@ class Client():
         self.client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.serverPort = 5555
         self.readList = [self.client]
-        self.server = ""
+        self.server = "battletanksbeta-purav.rhcloud.com"
         self.player = ""
         self.dcount = 0
         #self.server = "battletanks-purav.rhcloud.com"
