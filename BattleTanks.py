@@ -27,6 +27,7 @@ class Client():
         self.server = ""
         self.player = ""
         self.dcount = 0
+        #self.server = "battletanks-purav.rhcloud.com"
         #self.client.send("c")
         #print 'Successfully connected to server'
         #self.initializeGame()
@@ -239,5 +240,5 @@ class Client():
             pass
 
 #if __name__ == '__main__':
-    #client = Client()
-    #client.run()
+ #   client = Client()
+ #   client.run()

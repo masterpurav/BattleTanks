@@ -171,8 +171,6 @@ class tank:
             if(float(time.time()) - float(x)< 5):
                 #pygame.draw.line(surface,(0,0,0),(napalm_region[x],scr_height-10),(napalm_region[x]+napalm_width,scr_height-10),10)
                 surface.blit(self.flames[random.randint(0,2)],(napalm_region[x],scr_height-150))
-                pygame.draw.line(surface,(0,0,0),(napalm_region[x],scr_height-150),(napalm_region[x],scr_height-600),3)
-                pygame.draw.line(surface,(0,0,0),(napalm_region[x]+napalm_width,scr_height-150),(napalm_region[x]+napalm_width,scr_height-600),3)
             else:
                 rem = x
         try:
