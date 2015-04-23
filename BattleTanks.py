@@ -129,6 +129,7 @@ class Client():
         screen.blit(self.victory,(600,200))
         self.gameover = True
 
+
     def defeatEvent(self,screen):
         screen.blit(self.defeat,(600,200))
         self.gameover = True
@@ -182,10 +183,14 @@ class Client():
                                 self.handleKey("fireZero")
                             if event.key == K_LCTRL:
                                 self.handleKey("ctrlZero")
-                    elif event.type == KEYDOWN:
-                        self.handleKey("quit")
+                    else:
+                        if event.type == KEYDOWN:
+                            if event.key == K_ESCAPE:
+                                self.handleKey("quit")
+                        if event.type == MOUSEBUTTONDOWN:
+                            self.screen.blit(self.victory,pygame.mouse.get_pos())
+                            print pygame.mouse.get_pos()
                 if self.ready:
-                    print "In ready"
                     if self.dcount != 1:
                         self.player = 1
                     else:
