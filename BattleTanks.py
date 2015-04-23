@@ -126,12 +126,12 @@ class Client():
 
 
     def victoryEvent(self,screen):
-        screen.blit(self.victory,(600,200))
+        screen.blit(self.victory,(547,138))
         self.gameover = True
 
 
     def defeatEvent(self,screen):
-        screen.blit(self.defeat,(600,200))
+        screen.blit(self.defeat,(509,174))
         self.gameover = True
 
     def run(self):
