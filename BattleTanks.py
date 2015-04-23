@@ -105,8 +105,8 @@ class Client():
             self.B.dir = data[1]['tankDir']
             self.A.angle = data[0]['gunAngle']
             self.B.angle = data[1]['gunAngle']
-            self.A.health = data[0]['health']
-            self.B.health = data[1]['health']
+            self.A.health = max(0,data[0]['health'])
+            self.B.health = max(0,data[1]['health'])
             self.A.shield = data[0]['shield']
             self.B.shield = data[1]['shield']
             if data[0]['fire'] == 1:

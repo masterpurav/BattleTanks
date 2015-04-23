@@ -123,7 +123,7 @@ class tank:
         if self.shield == 0:
             if(time.time() - self.lastCast1 > 0.5):
                 for x in active_projectiles:
-                    if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2):
+                    if(x.pos_y > scr_height-self.tank_height and x.pos_x < self.tank_pos_x+self.tank_width/2 and x.pos_x > self.tank_pos_x-self.tank_width/2) and x.type == 1:
                         active_projectiles.remove(x)
                         #self.health -= 10
                         return True
