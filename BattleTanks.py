@@ -151,7 +151,9 @@ class Client():
                     if event.type == QUIT:
                         self.handleKey("quit")
                     if self.gameover == False:
-                        if event.type == KEYDOWN:
+                        if event.type == KEYDOWN and self.ready == 1:
+                            print "Here"
+                            print self.ready
                             if event.key == K_LEFT:
                                 self.handleKey("left")
                             if event.key == K_RIGHT:
@@ -174,7 +176,7 @@ class Client():
                                     if self.shieldUsed1 == 0:
                                         self.shield2 = time.time()
                                         self.handleKey("shield")
-                        if event.type == KEYUP:
+                        if event.type == KEYUP and self.ready == 1:
                             if event.key == K_LEFT or event.key == K_RIGHT:
                                 self.handleKey("tankZero")
                             if event.key == K_UP or event.key == K_DOWN:
