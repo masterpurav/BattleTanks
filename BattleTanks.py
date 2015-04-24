@@ -205,8 +205,9 @@ class Client():
                     self.B.drawTank(self.screen,ctime)
                     self.A.drawNapalm(self.screen)
                     self.B.drawNapalm(self.screen)
+                    self.A.drawIcons(self.screen)
+                    self.B.drawIcons(self.screen)
                     if self.player == 1:
-                        self.A.drawIcons(self.screen)
                         if self.A.gotHit() == True:
                             self.handleKey("hit")
                         if self.A.burnt() == True:
@@ -217,7 +218,6 @@ class Client():
                                 self.shieldUsed1 = 1
                                 self.A.shieldUsed = self.shieldUsed1
                     else:
-                        self.B.drawIcons(self.screen)
                         if self.B.gotHit() == True:
                             self.handleKey("hit")
                         if self.B.burnt() == True:
