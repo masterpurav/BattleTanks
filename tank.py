@@ -55,6 +55,7 @@ class tank:
         self.tank_color = color
         self.orientation = orientation
         self.shieldUsed = 0
+        self.shFlag = 0
         self.shieldImage = pygame.image.load("images/shield.png")
         self.flames1 = (pygame.image.load("images/flames_trial.png"))
         self.flames2 = (pygame.image.load("images/flames_trial_2.png"))
@@ -125,7 +126,10 @@ class tank:
             self.tank_pos_x = max(self.tank_pos_x+time*self.speed*self.dir,scr_width/2+wall.wall_width/2+self.tank_width/2)
         self.angle += self.gun_dir * self.gun_velocity
         self.drawHealthBar(surface)
+        if self.shFlag == 1 and self.shield == 0:
+            self.shieldUsed = 1
         if self.shield == 1:
+            self.shFlag = 1
             surface.blit(self.shieldImage,(self.tank_pos_x-114,self.tank_pos_y-80))
         #self.gotHit()
 
