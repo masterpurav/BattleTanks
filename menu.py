@@ -62,7 +62,7 @@ class Main():
             client.run()
         except IOError as e:
             print str(e.__unicode__())
-            self.state = "mainMenu"
+            self.state = "error"
         #except Exception as e:
             #print str(e.__unicode__())
             #self.state = "error"
