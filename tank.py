@@ -54,15 +54,42 @@ class tank:
         self.tank_pos_y = posy
         self.tank_color = color
         self.orientation = orientation
+        self.shieldUsed = 0
         self.shieldImage = pygame.image.load("images/shield.png")
         self.flames1 = (pygame.image.load("images/flames_trial.png"))
         self.flames2 = (pygame.image.load("images/flames_trial_2.png"))
         self.flames3 = (pygame.image.load("images/flames_trial_3.png"))
         self.flames = [self.flames1, self.flames2, self.flames3]
-        self.napalm = pygame.image.load("images/fireball_final.png")
+        self.napalm = pygame.image.load("images/fire2.png")
+        self.napalmD = pygame.image.load("images/fire1.png")
+        self.cannon = pygame.image.load("images/cannon2.png")
+        self.cannonD = pygame.image.load("images/cannon1.png")
+        self.shieldIc = pygame.image.load("images/shield2.png")
+        self.shieldIcD = pygame.image.load("images/shield1.png")
 
     def drawIcons(self,screen):
-        screen.blit(self.napalm,(50,200))
+        if time.time() - self.lastCast1 > 1.5:
+            cannon = self.cannon
+        else:
+            cannon = self.cannonD
+        if time.time() - self.lastCast2 > 7:
+            napalm = self.napalm
+        else:
+            napalm = self.napalmD
+        if self.shield == 0:
+            shield = self.shieldIc
+        else:
+            shield = self.shieldIcD
+        if self.orientation == 1:
+            screen.blit(cannon,(50,100))
+            screen.blit(napalm,(120,100))
+            if self.shieldUsed == 0:
+                screen.blit(shield,(190,100))
+        else:
+            screen.blit(cannon,(scr_width-100,100))
+            screen.blit(napalm,(scr_width-170,100))
+            if self.shieldUsed == 0:
+                screen.blit(shield,(scr_width-240,100))
 
     # Move left
     def moveLeft(self):
