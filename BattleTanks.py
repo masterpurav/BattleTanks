@@ -171,8 +171,7 @@ class Client():
                                 if self.player == 1 and self.shieldUsed1 == 0:
                                     self.shield1 = time.time()
                                     self.handleKey("shield")
-                                else:
-                                    if self.shieldUsed1 == 0:
+                                elif self.player == 2 and self.shieldUsed2 == 0:
                                         self.shield2 = time.time()
                                         self.handleKey("shield")
                         elif event.type == KEYDOWN:
