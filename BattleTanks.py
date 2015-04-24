@@ -22,7 +22,7 @@ class Client():
     def __init__(self):
         self.lastUpdate = time.time()
         self.client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.serverPort = 5555
+        self.serverPort = 6523
         self.readList = [self.client]
         self.server = "battletanksbeta-purav.rhcloud.com"
         self.player = ""
@@ -152,7 +152,6 @@ class Client():
                         self.handleKey("quit")
                     if self.gameover == False:
                         if event.type == KEYDOWN and self.ready == 1:
-                            print "Here"
                             print self.ready
                             if event.key == K_LEFT:
                                 self.handleKey("left")
@@ -176,6 +175,10 @@ class Client():
                                     if self.shieldUsed1 == 0:
                                         self.shield2 = time.time()
                                         self.handleKey("shield")
+                        elif event.type == KEYDOWN:
+                            if event.key == K_ESCAPE:
+                                self.handleKey("quit")
+
                         if event.type == KEYUP and self.ready == 1:
                             if event.key == K_LEFT or event.key == K_RIGHT:
                                 self.handleKey("tankZero")
@@ -203,6 +206,7 @@ class Client():
                     self.B.drawTank(self.screen,ctime)
                     self.A.drawNapalm(self.screen)
                     self.B.drawNapalm(self.screen)
+                    self.A.drawIcons(self.screen)
                     if self.player == 1:
                         if self.A.gotHit() == True:
                             self.handleKey("hit")

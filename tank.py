@@ -42,6 +42,7 @@ class tank:
             self.index = 0
             self.image = self.flames[self.index]
 
+
         def update(self):
             self.index += 1
             if self.index > len(self.flames):
@@ -58,8 +59,10 @@ class tank:
         self.flames2 = (pygame.image.load("images/flames_trial_2.png"))
         self.flames3 = (pygame.image.load("images/flames_trial_3.png"))
         self.flames = [self.flames1, self.flames2, self.flames3]
+        self.napalm = pygame.image.load("images/fireball_final.png")
 
-
+    def drawIcons(self,screen):
+        screen.blit(self.napalm,(50,200))
 
     # Move left
     def moveLeft(self):
