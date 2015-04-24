@@ -163,11 +163,11 @@ class Client():
                                 self.handleKey("down")
                             if event.key == K_SPACE:
                                 self.handleKey("space")
-                            if event.key == K_LCTRL:
+                            if event.key == K_LCTRL or event.key == K_RCTRL:
                                 self.handleKey("ctrl")
                             if event.key == K_ESCAPE:
                                 self.handleKey("quit")
-                            if event.key == K_LALT:
+                            if event.key == K_LALT or event.key == K_RALT:
                                 if self.player == 1 and self.shieldUsed1 == 0:
                                     self.shield1 = time.time()
                                     self.handleKey("shield")
@@ -185,7 +185,7 @@ class Client():
                                 self.handleKey("gunZero")
                             if event.key == K_SPACE:
                                 self.handleKey("fireZero")
-                            if event.key == K_LCTRL:
+                            if event.key == K_LCTRL or event.key == K_RCTRL:
                                 self.handleKey("ctrlZero")
                     else:
                         if event.type == KEYDOWN:
