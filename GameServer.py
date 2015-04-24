@@ -185,6 +185,7 @@ if __name__ == '__main__':
                         sock.close()
                         # Handle this properly later
                         clients.remove(sock)
+                        waitList = []
                         print "Removed from main ",sock
                         continue
         except:
