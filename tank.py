@@ -130,7 +130,7 @@ class tank:
             self.shieldUsed = 1
         if self.shield == 1:
             self.shFlag = 1
-            surface.blit(self.shieldImage,(self.tank_pos_x-114,self.tank_pos_y-80))
+            surface.blit(self.shieldImage,(self.tank_pos_x-114,self.tank_pos_y-90))
         #self.gotHit()
 
 

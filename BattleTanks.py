@@ -221,7 +221,6 @@ class Client():
                         if self.B.gotHit() == True:
                             self.handleKey("hit")
                         if self.B.burnt() == True:
-                            print "Burning here"
                             self.handleKey("burn")
                         if self.B.shield == 1:
                             if time.time() - self.shield2 > 5:

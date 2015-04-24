@@ -31,6 +31,7 @@ class Main():
         self.errorPanel = pygame.image.load("images/unable_server.png")
         self.ok = pygame.image.load("images/ok.png")
         self.okF = pygame.image.load("images/ok_f.png")
+        self.rpanel = pygame.image.load("images/left_panel.png")
         self.leftPanelPos = (96,200)
         self.rightPanelPos = (697,200)
         self.quitPos = (200,352)
@@ -183,7 +184,7 @@ class Main():
                         self.state = "mainMenu"
             self.screen.blit(self.mBg,(0,0))
             self.screen.blit(self.panel,self.leftPanelPos)
-            self.screen.blit(self.panel,self.rightPanelPos)
+            self.screen.blit(self.rpanel,self.rightPanelPos)
             self.screen.blit(quitButton,self.quitPos)
             self.screen.blit(playButton,self.playPos)
             if self.state == "quit":
