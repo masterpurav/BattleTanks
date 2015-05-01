@@ -14,7 +14,7 @@ Directions to run the program:
 
 * Locate the server file "GameServer.py" and run it on the machine where you want to host the server. The Server needs Python 2.7+ installed. To know whether or not Python is installed on your target machine, open the command prompt and type in "python --version" to check the version of python running on that machine. Run the GameServer.py file using the command "py GameServer.py"
 
-* To run the client, locate the menu.py file and run it using command "menu.py". It is recommended that you run separate clients on separate machines. 
+* To run the client, locate the menu.py file and run it using command "py menu.py". It is recommended that you run separate clients on separate machines. 
 
 * The menu pops up. Click on play to start playing. Enter the IP addess of the server (the machine you used in Step 1). Click on Quit to exit. Press ESC during any point in the game to exit the game.
 
